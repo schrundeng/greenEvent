@@ -23,10 +23,20 @@
                 <a href="#" class="hover:text-gray-200">About</a>
                 <a href="#" class="hover:text-gray-200">Contact</a>
             </nav>
-            <div class="flex gap-3">
-                <a href="#" class="px-3 py-1 rounded bg-white text-green-600 font-medium">Sign In</a>
-                <a href="#" class="px-3 py-1 rounded bg-green-700 text-white font-medium">Register</a>
-            </div>
+           <div class="flex gap-3">
+    @auth
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700">
+                Logout
+            </button>
+        </form>
+    @else
+        <a href="{{ route('login') }}" class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100">Sign In</a>
+        <a href="{{ route('register') }}" class="px-3 py-1 rounded bg-green-700 text-white font-medium hover:bg-green-800">Register</a>
+        @endauth
+    </div>
+
         </div>
     </header>
 

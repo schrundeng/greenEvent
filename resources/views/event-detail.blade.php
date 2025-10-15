@@ -1,4 +1,4 @@
-@extends('user.layout')
+@extends('app.layout')
 
 @section('content')
 <div class="max-w-6xl mx-auto py-10 px-4">

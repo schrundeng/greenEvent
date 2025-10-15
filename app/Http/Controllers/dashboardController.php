@@ -6,7 +6,7 @@ use App\Models\Event;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class dashboardController extends Controller
 {
     public function index()
     {

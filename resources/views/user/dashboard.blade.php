@@ -27,19 +27,19 @@
         <h2 class="text-xl font-semibold text-green-700 mb-2">Event Terbaru</h2>
 
         <div class="space-y-4 overflow-y-auto max-h-[540px]">
-            {{-- @foreach ($events as $event) --}}
+             @foreach ($events as $event)
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition p-4">
-                <img src="{{-- asset('storage/' . $event->poster) --}}"
-                    alt="{{-- $event->title --}}" class="rounded mb-3">
-                <h3 class="font-semibold text-lg">{{-- $event->title --}}Contoh Event</h3>
-                <p class="text-gray-600 text-sm mb-1">📅 12/23/3456</p>
-                <p class="text-gray-600 text-sm mb-1">📍 Contoh Lokasi</p>
+                <img src="{{asset('storage/poster/' . $event->poster)}}"
+                    alt="{{$event->title}}" class="rounded mb-3">
+                <h3 class="font-semibold text-lg">{{$event->title}}</h3>
+                <p class="text-gray-600 text-sm mb-1">{{$event->date}}</p>
+                <p class="text-gray-600 text-sm mb-1">{{$event->location}}</p>
                 <a href="#"
                     class="inline-block mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
                     Detail
                 </a>
             </div>
-            {{-- @endforeach --}}
+            @endforeach
         </div>
     </div>
 </div>
@@ -70,25 +70,20 @@
             map.fitBounds(malangBoundary.getBounds());
         });
 
-    {
-        {
-            --
-            const events = @json($events);
+    const events = @json($events);
 
-            events.forEach(event => {
-                if (event.lat && event.long) {
-                    const marker = L.marker([event.lat, event.long]).addTo(map);
-                    marker.bindPopup(`
-                    <div>
-                        <strong>${event.title}</strong><br>
-                        ${event.location}<br>
-                        <a href="/events/${event.slug}" class="text-green-600 underline">Lihat Detail</a>
-                    </div>
-                `);
-                }
-            });
-            --
-        }
+    events.forEach(event => {
+    if (event.latitude && event.longitude) {
+        const marker = L.marker([event.longitude, event.latitude]).addTo(map);
+        marker.bindPopup(`
+            <div>
+                <strong>${event.title}</strong><br>
+                ${event.location}<br>
+                <a href="/events/${event.slug}" class="text-green-600 underline">Lihat Detail</a>
+            </div>
+        `);
     }
+});
+
 </script>
 @endsection
