@@ -31,16 +31,18 @@ Route::prefix('user')->group(function () {
     Route::view('/history', 'user.history');
 });
 
-// Admin
-//Route::prefix('admin')->group(function()
-//{
-//});
 
-Route::get('/Admindashboard', function () {
-    return view('admin.dashboard');
+// Admin Pages
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [dashboardController::class, 'adminIndex'])->name('admin.dashboard');
+    Route::view('/manage-users', 'admin.user-management');
+    Route::view('/manage-events', 'admin.event-management');
+    Route::view('/create-event', 'admin.event-create');
+    Route::view('/edit-event', 'admin.event-edit');
 });
 
+
 // Event Pages
-Route::get('/event-detail', fn() => view('user.event-detail'));
+Route::get('/event-detail', [EventController::class, 'index'])->name('event.detail.show');
 Route::get('/event-register', fn() => view('user.event-register'));
-Route::get('events/{idOrSlug}', [EventController::class, 'show'])->name('user.events.show');
+Route::get('events/{idOrSlug}', [EventController::class, 'show'])->name('events.detail.show');

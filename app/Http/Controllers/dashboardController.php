@@ -15,4 +15,12 @@ class dashboardController extends Controller
         
         return view('user.dashboard', compact('categories', 'events'));
     }
+
+    public function adminIndex()
+    {
+        $categories = Categories::all();
+        $events = Event::with([ 'category'])->latest()->get();
+        
+        return view('admin.dashboard', compact('categories', 'events'));
+    }
 }

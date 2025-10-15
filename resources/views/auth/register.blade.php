@@ -94,15 +94,6 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-1">Role</label>
-                    <select name="role"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00C853] focus:outline-none" required>
-                        <option value="">-- Select Role --</option>
-                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
-                    </select>
-                </div>
-
                 <button type="submit"
                         class="w-full bg-[#00C853] text-white font-semibold py-2 rounded-lg hover:bg-[#00a147] transition">
                     Register

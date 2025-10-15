@@ -1,4 +1,6 @@
-@extends('admin.layout')
+<h1 class="text-3xl font-bold text-green-700 mb-6">Dashboard Admin</h1>
+
+{{-- @extends('admin.layout') --}}
 
 @section('content')
 <div class="max-w-7xl mx-auto py-8 px-4">
@@ -34,7 +36,7 @@
             <a href="" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
         </div>
 
-        @if($events->isEmpty())
+        {{-- @if($latestEvents->isEmpty())
             <p class="text-gray-600">Belum ada event yang dibuat.</p>
         @else
             <div class="overflow-x-auto">
@@ -45,33 +47,33 @@
                             <th class="px-4 py-2 text-sm font-semibold text-gray-700">Kategori</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-700">Tanggal</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-700">Status</th>
-                            <th class="px-4 py-2 text-sm font-semibold text-gray-700 text-right">Detail Event</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-700 text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($events as $event)
+                        @foreach($latestEvents as $event)
                         <tr class="border-b hover:bg-green-50">
                             <td class="px-4 py-2">{{ $event->title }}</td>
-        <td class="px-4 py-2">{{ $event->category->name ?? '-' }}</td>
-        <td class="px-4 py-2">{{ $event->start_date->format('d/m/Y') }}</td>
-        <td class="px-4 py-2">
-            <span class="px-2 py-1 text-xs rounded 
+                            <td class="px-4 py-2">{{ $event->category->name ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $event->start_date->format('d/m/Y') }}</td>
+                            <td class="px-4 py-2">
+                                <span class="px-2 py-1 text-xs rounded 
                                     {{ $event->status === 'published' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
-                {{ ucfirst($event->status) }}
-            </span>
-        </td>
-        <td class="px-4 py-2 text-right">
-            <a href="{{ route('event.detail.show', $event->id) }}"
-                class="text-green-600 hover:text-green-800 font-medium text-sm">
-                Detail
-            </a>
-        </td>
-        </tr>
-        @endforeach
-        </tbody>
-        </table>
+                                    {{ ucfirst($event->status) }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2 text-right">
+                                <a href="{{ route('admin.events.show', $event->id) }}" 
+                                   class="text-green-600 hover:text-green-800 font-medium text-sm">
+                                   Detail
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif --}}
     </div>
-    @endif
-</div>
 </div>
 @endsection
