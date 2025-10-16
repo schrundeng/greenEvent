@@ -113,7 +113,7 @@
                 </div>
 
             {{-- Tombol Daftar --}}
-            <a href="route('user.events.register', $event->slug)"
+            <a href="{{ route('user.event-register', $event->slug ?? $event->id) }}"
                 class="inline-block mt-4 px-6 py-3 bg-green-600 text-white font-medium rounded hover:bg-green-700">
                 Daftar Event
             </a>
@@ -143,8 +143,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         try {
             // Initialize map with event coordinates using Blade syntax
-            const latitude = {{$event -> latitude ?? 'null'}};
-            const longitude = {{$event -> longitude ?? 'null'}};
+            const latitude = {{$latitude ?? 'null'}};
+            const longitude = {{ $longitude ?? 'null'}};
 
             if (!latitude || !longitude) {
                 throw new Error('Location coordinates are not available');

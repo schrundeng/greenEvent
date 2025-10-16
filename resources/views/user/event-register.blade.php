@@ -7,22 +7,21 @@
     <p class="text-gray-600 mb-2">📍 {{ $event->location }}</p>
     <p class="text-gray-700 mb-6">{{ $event->description }}</p>
 
-    {{-- Cek apakah user sudah mendaftar --}}
-    @php
-        $registered = auth()->user()->registrations->contains('event_id', $event->id);
-    @endphp
-
-    @if($registered)
+    @if($isRegistered)
         <div class="bg-green-100 p-4 rounded text-green-800 font-medium">
-            Kamu sudah mendaftar event ini.
+            You are already registered for this event.
         </div>
     @else
-        <form action="{{ route('events.register', $event->slug) }}" method="POST" class="bg-white p-6 rounded-lg shadow-md space-y-4">
+        <form action="{{ route('user.event-register.store', $event->slug ?? $event->id) }}" 
+              method="POST" 
+              class="bg-white p-6 rounded-lg shadow-md space-y-4">
             @csrf
-            <h2 class="text-lg font-semibold text-green-700">Form Pendaftaran</h2>
+            <input type="hidden" name="event_id" value="{{ $event->id }}">
+            
+            <h2 class="text-lg font-semibold text-green-700">Registration Form</h2>
             
             <div>
-                <label class="block text-sm font-medium text-gray-700">Nama</label>
+                <label class="block text-sm font-medium text-gray-700">Name</label>
                 <input type="text" name="name" value="{{ auth()->user()->username }}" 
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500" required>
             </div>
@@ -34,14 +33,14 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700">No. HP</label>
+                <label class="block text-sm font-medium text-gray-700">Phone</label>
                 <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}" 
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500" required>
             </div>
 
             <button type="submit" 
                     class="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                Daftar Event
+                Register for Event
             </button>
         </form>
     @endif

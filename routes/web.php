@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\RegisController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,7 +23,14 @@ Route::prefix('user')->group(function () {
     Route::view('/profile', 'user.user-profile')->name('user.profile');
     Route::view('/edit-profile', 'user.user-edit-profile')->name('user.user-edit');
     Route::view('/history', 'user.history')->name('user.history');
-    Route::view('/registration', 'user.event-register')->name('user.event-regis');
+
+    // GET route for showing the form
+    Route::get('/registration/{idOrSlug}', [RegisController::class, 'create'])
+        ->name('user.event-register');
+
+    // POST route for handling the form submission
+    Route::post('/registration/{idOrSlug}', [RegisController::class, 'store'])
+        ->name('user.event-register.store');
 });
 
 
@@ -40,5 +48,5 @@ Route::prefix('admin')->group(function () {
 // Event Pages
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/event-detail', [EventController::class, 'index'])->name('event.detail.show');
-Route::get('/event-register', fn() => view('user.event-register'));
+Route::get('/event-register', [RegisController::class, 'create'])->name('user.event-register');
 Route::get('/event-detail/{idOrSlug}', [EventController::class, 'show'])->name('events.detail.show');

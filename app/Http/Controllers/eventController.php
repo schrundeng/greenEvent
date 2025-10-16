@@ -132,7 +132,7 @@ class eventController extends Controller
             $longitude = $event->longitude;
             $latitude = $event->latitude;
 
-            return view('event-detail', compact('event'));
+            return view('event-detail', compact('event', 'longitude', 'latitude'));
         } catch (\Exception $e) {
             return response()->view('errors.404', [], 404);
         }
