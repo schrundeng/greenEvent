@@ -48,10 +48,10 @@
             Temukan, ikuti, dan dukung event ramah lingkungan — dari aksi bersih sungai hingga workshop daur ulang kreatif.
         </p>
         <div class="mt-6 flex justify-center gap-4">
-            <a href="#" class="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700">
+            <a href="{{ route('register') }}" class="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700">
                 🌱 Daftar Sekarang
             </a>
-            <a href="#" class="px-6 py-3 border border-green-600 text-green-700 rounded-lg hover:bg-green-50">
+            <a href="{{ route('login') }}" class="px-6 py-3 border border-green-600 text-green-700 rounded-lg hover:bg-green-50">
                 Masuk untuk Bergabung
             </a>
         </div>
@@ -151,22 +151,11 @@
             </div>
 
             <div>
-                <h4 class="font-semibold mb-3">Eksplor</h4>
+                <h4 class="font-semibold mb-3">Our Team</h4>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-green-600">Event Terbaru</a></li>
-                    <li><a href="#" class="hover:text-green-600">Komunitas Hijau</a></li>
-                    <li><a href="#" class="hover:text-green-600">Tips Daur Ulang</a></li>
-                    <li><a href="#" class="hover:text-green-600">Artikel Edukasi</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="font-semibold mb-3">Sumber Daya</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-green-600">Blog & Cerita</a></li>
-                    <li><a href="#" class="hover:text-green-600">Panduan Relawan</a></li>
-                    <li><a href="#" class="hover:text-green-600">Kebijakan Privasi</a></li>
-                    <li><a href="#" class="hover:text-green-600">Kontak Kami</a></li>
+                    <li class="hover:text-green-600">Naufal Rakha Putra</li>
+                    <li class="hover:text-green-600">Muhammad Naufal Ramadhan</li>
+                    <li class="hover:text-green-600">Ghaura Furqon Nugraha</li>
                 </ul>
             </div>
 

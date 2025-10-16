@@ -26,23 +26,54 @@
 
         <h2 class="text-xl font-semibold text-green-700 mb-2">Event Terbaru</h2>
 
-        <div class="space-y-4 overflow-y-auto max-h-[540px]">
-             @foreach ($events as $event)
-            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition p-4">
-                <img src="{{asset('storage/poster/' . $event->poster)}}"
-                    alt="{{$event->title}}" class="rounded mb-3">
-                <h3 class="font-semibold text-lg">{{$event->title}}</h3>
-                <p class="text-gray-600 text-sm mb-1">{{$event->date}}</p>
-                <p class="text-gray-600 text-sm mb-1">{{$event->location}}</p>
-                <a href="#"
-                    class="inline-block mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                    Detail
-                </a>
-            </div>
-            @endforeach
-        </div>
-    </div>
+        <div class="grid gap-6 overflow-y-auto max-h-[540px]">
+
+    {{-- Grid 2 Kolom --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @foreach ($events as $event)
+            {{-- Sembunyikan event yang sudah berakhir --}}
+            @if ($event->status !== 'ended')
+                <div
+                    class="bg-white rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1 p-4 flex flex-col">
+                    {{-- Poster Event --}}
+                    <img src="{{ asset('storage/' . $event->poster) }}"
+                        alt="{{ $event->title }}"
+                        class="rounded-lg mb-3 w-full h-48 object-cover">
+
+                    {{-- Info Event --}}
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg text-gray-800">{{ $event->title }}</h3>
+                        <p class="text-gray-600 text-sm mt-1">
+                            📅 {{ \Carbon\Carbon::parse($event->date)->format('d M Y') }}
+                        </p>
+                        <p class="text-gray-600 text-sm">📍 {{ $event->location }}</p>
+
+                        {{-- Status Event --}}
+                        <div class="mt-3">
+                            <span class="text-xs font-medium px-2 py-1 rounded-full
+                                @if($event->status === 'ongoing') bg-green-100 text-green-700
+                                @elseif($event->status === 'coming soon') bg-yellow-100 text-yellow-700
+                                @elseif($event->status === 'cancelled') bg-red-100 text-red-700
+                                @else bg-gray-100 text-gray-500
+                                @endif">
+                                {{ ucfirst($event->status) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    {{-- Tombol Detail --}}
+                    <div class="mt-4">
+                        <a href="{{ route('events.detail.show', $event->id) }}"
+                            class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                            Detail
+                        </a>
+                    </div>
+                </div>
+            @endif
+        @endforeach
 </div>
+
+
 
 {{-- Leaflet Map Script --}}
 <script>

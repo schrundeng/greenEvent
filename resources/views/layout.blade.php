@@ -10,8 +10,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
     
-{{-- Navbar User --}}
-<nav class="sticky top-0 left-0 w-full bg-[#00C853] text-white shadow-md z-[9999]">
+    <nav class="sticky top-0 left-0 w-full bg-[#00C853] text-white shadow-md z-[9999]">
     <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         <!-- Logo -->
         <a href="{{ route('user.dashboard') }}" class="flex items-center text-white font-bold text-lg">

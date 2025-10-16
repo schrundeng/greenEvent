@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 
 class eventController extends Controller
@@ -18,21 +21,61 @@ class eventController extends Controller
     public function index()
     {
         try {
-            $events = Event::with(['name', 'category'])->latest()->get();
-            return view('events.index', compact('events'));
+            $events = Event::with(['category'])->latest()->get();
+            return view('events', compact('events')); // Changed this line
         } catch (\Exception $e) {
-            return response()->view('errors.500', [], 500);
+            // Log the error
+            Log::error('Event Index Error: ' . $e->getMessage());
+            
+            // In development, show the error
+            if (config('app.debug')) {
+                dd([
+                    'message' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+            }
+            
+            // In production, return back with error message
+            return back()->with('error', 'Unable to load events. Please try again later.');
         }
     }
 
     /**
      * Show the form for creating a new event
      */
-    public function create()
+   public function create()
+{
+    $categories = Categories::all();
+    return view('admin.event-create', compact('categories'));
+}
+
+
+    public function adminIndex()
     {
         try {
-            $categories = Categories::all();
-            return view('events.create', compact('categories'));
+            // Get total events
+            $totalEvents = Event::count();
+
+            // Get total users (excluding admins)
+            $totalUsers = User::where('role', 'user')->count();
+
+            // Get total registrations
+            $totalRegistrations = DB::table('event_registrations')->count();
+
+            // Get latest events with relationships
+            $events = Event::with(['creator', 'category'])
+                ->latest()
+                ->take(5)
+                ->get();
+
+            return view('admin.dashboard', compact(
+                'totalEvents',
+                'totalUsers',
+                'totalRegistrations',
+                'events'
+            ));
         } catch (\Exception $e) {
             return response()->view('errors.500', [], 500);
         }
@@ -53,12 +96,13 @@ class eventController extends Controller
                 'location' => 'required|max:255',
                 'longitude' => 'required|numeric',
                 'latitude' => 'required|numeric',
-                'poster' => 'required|image|max:2048'
+                'poster' => 'required|image|max:2048',
+                'organizer' => 'required|max:255'
             ]);
 
             // Handle poster upload
             if ($request->hasFile('poster')) {
-                $posterPath = $request->file('poster')->store('events', 'public');
+                $posterPath = $request->file('poster')->store('poster', 'public');
                 $validated['poster'] = $posterPath;
             }
 
@@ -70,9 +114,9 @@ class eventController extends Controller
             return redirect()->route('events.index')
                 ->with('success', 'Event created successfully');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to create event')
-                ->withInput();
+            dd($e->getMessage());
         }
+
     }
 
     /**
@@ -82,10 +126,13 @@ class eventController extends Controller
     {
         try {
             $event = Event::where('id', $idOrSlug)
-                     ->orWhere('slug', $idOrSlug)
-                     ->firstOrFail();
-        
-            return view('user.event-detail', compact('event'));
+                ->orWhere('slug', $idOrSlug)
+                ->firstOrFail();
+
+            $longitude = $event->longitude;
+            $latitude = $event->latitude;
+
+            return view('event-detail', compact('event'));
         } catch (\Exception $e) {
             return response()->view('errors.404', [], 404);
         }
@@ -119,7 +166,8 @@ class eventController extends Controller
                 'location' => 'required|max:255',
                 'longitude' => 'required|numeric',
                 'latitude' => 'required|numeric',
-                'poster' => 'nullable|image|max:2048'
+                'poster' => 'nullable|image|max:2048',
+                'organizer' => 'required|max:255'
             ]);
 
             // Handle poster upload if new file is provided
@@ -142,7 +190,6 @@ class eventController extends Controller
                 ->withInput();
         }
     }
-
     /**
      * Remove the specified event
      */

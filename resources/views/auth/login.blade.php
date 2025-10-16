@@ -65,8 +65,8 @@
                 @csrf
 
                 <div class="mb-4">
-                    <label class="block font-semibold mb-1">Email Address</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required autofocus class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C853]">
+                    <label class="block font-semibold mb-1">Email/Username</label>
+                    <input type="text" name="login" value="{{ old('email') }}" required autofocus class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C853]">
                 </div>
 
                 <div class="mb-4">
@@ -99,5 +99,9 @@
         </div>
     </div>
 
+    {{-- Footer --}}
+    <footer class="bg-green-700 text-white text-center py-3 mt-auto">
+        <p>&copy; {{ date('Y') }} GreenEvent. All rights reserved.</p>
+    </footer>
 </body>
 </html>

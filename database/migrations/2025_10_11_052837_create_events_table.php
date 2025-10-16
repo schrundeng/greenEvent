@@ -22,13 +22,12 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date')->nullable();
             $table->string('location', 255);
-            $table->decimal('longitude', 10, 7);
             $table->decimal('latitude', 10, 7);
+            $table->decimal('longitude', 10, 7);
             $table->string('poster', 255);
+            $table->string('organizer', 255);
             $table->timestamps();
         });
-
-        
     }
 
     /**
