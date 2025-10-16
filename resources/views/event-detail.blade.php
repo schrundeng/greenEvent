@@ -24,16 +24,27 @@
                     </div>
 
                     {{-- Status badge --}}
-                    <span class="
-            px-3 py-1 text-sm font-semibold rounded-full
-            @if($event->status === 'ongoing') bg-green-100 text-green-700
-            @elseif($event->status === 'coming soon') bg-yellow-100 text-yellow-700
-            @elseif($event->status === 'cancelled') bg-red-100 text-red-700
-            @elseif($event->status === 'ended') bg-gray-200 text-gray-600
-            @else bg-gray-100 text-gray-500
-            @endif">
-                        {{ ucfirst($event->status) }}
-                    </span>
+                    @php
+    $statusLabels = [
+        'ongoing' => 'Ongoing',
+        'coming_soon' => 'Coming Soon',
+        'cancelled' => 'Cancelled',
+        'ended' => 'Ended',
+    ];
+
+    $statusColors = [
+        'ongoing' => 'bg-green-100 text-green-700',
+        'coming_soon' => 'bg-yellow-100 text-yellow-700',
+        'cancelled' => 'bg-red-100 text-red-700',
+        'ended' => 'bg-gray-200 text-gray-600',
+    ];
+@endphp
+
+<span class="px-3 py-1 text-sm font-semibold rounded-full
+    {{ $statusColors[$event->status] ?? 'bg-gray-100 text-gray-500' }}">
+    {{ $statusLabels[$event->status] ?? ucfirst($event->status) }}
+</span>
+
                 </div>
 
                 {{-- Grid Info --}}

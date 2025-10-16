@@ -13,15 +13,15 @@
 <nav class="bg-[#00C853] text-white shadow-md">
     <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         <!-- Logo -->
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center text-white font-bold text-lg">
-            <div class="bg-white text-[#00C853] font-bold rounded px-2 py-1 mr-2">
-                GE
-            </div>
-            Green Event (Admin)
-        </a>
-
+                <a href="/" class="flex items-center text-white font-bold text-lg">
+    <div class="bg-white text-[#00C853] font-bold rounded px-2 py-1 mr-2 select-none" aria-hidden="true">
+        GE
+    </div>
+    Green Event
+</a>
         <!-- Navigation -->
         <div class="flex items-center space-x-6">
+            <p class="font-medium hover:text-gray-100 transition">Hi, admin!</p>
             <a href="{{ route('admin.dashboard') }}" 
                class="font-medium hover:text-gray-100 transition">Dashboard</a>
 

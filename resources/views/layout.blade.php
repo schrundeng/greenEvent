@@ -13,12 +13,13 @@
     <nav class="sticky top-0 left-0 w-full bg-[#00C853] text-white shadow-md z-[9999]">
     <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         <!-- Logo -->
-        <a href="{{ route('user.dashboard') }}" class="flex items-center text-white font-bold text-lg">
-            <div class="bg-white text-[#00C853] font-bold rounded px-2 py-1 mr-2">
-                GE
-            </div>
-            Green Event
-        </a>
+        <a href="/" class="flex items-center text-white font-bold text-lg">
+    <div class="bg-white text-[#00C853] font-bold rounded px-2 py-1 mr-2 select-none" aria-hidden="true">
+        GE
+    </div>
+    Green Event
+</a>
+
 
         <!-- Navigation Links -->
         <div class="flex items-center space-x-6">

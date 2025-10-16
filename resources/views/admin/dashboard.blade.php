@@ -38,7 +38,7 @@
                 </svg>
             </div>
             <div>
-                <p href="{{ route('admin.event-create') }}" class="font-medium text-green-800">Tambah Event</p>
+                <p href="{{--route('admin.event-create')--}}" class="font-medium text-green-800">Tambah Event</p>
                 <p class="text-sm text-gray-500">Buat event baru dengan cepat</p>
             </div>
         </a>
