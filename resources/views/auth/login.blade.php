@@ -9,23 +9,36 @@
 <body class="bg-gray-100">
 
     {{-- Navbar --}}
-    <nav class="bg-[#00C853]">
-        <div class="container mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
-            <a href="#" class="flex items-center text-white font-bold text-lg">
-                <div class="bg-white text-[#00C853] font-bold rounded px-2 py-1 mr-2">GE</div>
-                Green Event
-            </a>
-
-            <div class="flex items-center space-x-4">
-                <a href="#" class="text-white font-semibold hover:text-gray-200">Home</a>
-                <a href="#" class="text-white font-semibold hover:text-gray-200">Event</a>
-                <a href="#" class="text-white font-semibold hover:text-gray-200">About</a>
-                <a href="#" class="text-white font-semibold hover:text-gray-200">Contact</a>
-                <a href="{{ route('login') }}" class="bg-white text-[#00C853] font-semibold px-4 py-2 rounded-md">Sign In</a>
-                <a href="{{ route('register') }}" class="bg-[#009624] text-white font-semibold px-4 py-2 rounded-md">Register</a>
+    <nav class="bg-green-500 text-white shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-white text-green-600 flex items-center justify-center font-bold rounded">
+                GE
             </div>
+            <span class="font-semibold">Green Event</span>
+        </a>
+
+        <!-- Nav Links -->
+        <div class="flex gap-6">
+            <a href="/" class="hover:text-gray-200">Beranda</a>
+            <a href="#" class="hover:text-gray-200">Event</a>
+            <a href="#" class="hover:text-gray-200">Tentang</a>
+            <a href="#" class="hover:text-gray-200">Kontak</a>
         </div>
-    </nav>
+
+        <!-- Auth Buttons -->
+        <div class="flex gap-3">
+            <a href="{{ route('login') }}" class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100">
+                Masuk
+            </a>
+            <a href="{{ route('register') }}" class="px-3 py-1 rounded bg-green-700 text-white font-medium hover:bg-green-800">
+                Daftar
+            </a>
+        </div>
+    </div>
+</nav>
+
 
     {{-- Login Form --}}
     <div class="flex justify-center items-center min-h-[90vh]">
