@@ -52,37 +52,53 @@ class eventController extends Controller
     }
 
 
-    public function adminIndex()
-    {
-        try {
-            $categories = Categories::all();
+   public function adminIndex(Request $request)
+{
+    try {
+        $categories = Categories::all();
 
-            // Get total events
-            $totalEvents = Event::count();
+        // Hitung data untuk statistik
+        $totalEvents = Event::count();
+        $totalUsers = User::where('role', 'user')->count();
+        $totalRegistrations = DB::table('regis')->count();
 
-            // Get total users (excluding admins)
-            $totalUsers = User::where('role', 'user')->count();
+        // Query dasar untuk event
+        $query = Event::with(['creator', 'category']);
 
-            // Get total registrations
-            $totalRegistrations = DB::table('regis')->count();
-
-            // Get latest events with relationships
-            $events = Event::with(['creator', 'category'])
-                ->latest()
-                ->take(5)
-                ->get();
-
-            return view('admin.event-management', compact(
-                'totalEvents',
-                'totalUsers',
-                'totalRegistrations',
-                'events',
-                'categories'
-            ));
-        } catch (\Exception $e) {
-            return response()->view('errors.500', [], 500);
+        // Filter berdasarkan pencarian (judul / lokasi)
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'ILIKE', '%' . $request->search . '%')
+                  ->orWhere('location', 'ILIKE', '%' . $request->search . '%');
+            });
         }
+
+        // Filter berdasarkan kategori
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        // Filter berdasarkan status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Ambil event sesuai filter (paginate biar rapi)
+        $events = $query->latest()->paginate(10);
+
+        return view('admin.event-management', compact(
+            'totalEvents',
+            'totalUsers',
+            'totalRegistrations',
+            'events',
+            'categories'
+        ));
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
+}
+
 
     /**
      * Store a newly created event
@@ -117,7 +133,6 @@ class eventController extends Controller
             return redirect()->route('events.index')
                 ->with('success', 'Event created successfully');
         } catch (\Exception $e) {
-            dd($e->getMessage());
         }
     }
 
@@ -143,25 +158,30 @@ class eventController extends Controller
     /**
      * Show the form for editing the specified event
      */
-    public function edit(Event $event)
+    public function edit()
     {
         try {
-            $event = Event::findOrFail($event);
             $categories = Categories::all();
+            $event = Event::findOrFail(request()->id);
             $id = $event->id;
-            return view('admin.event-edit', compact('id','event', 'categories' ));
+            return view('admin.event-edit', compact('event', 'categories', 'id'));
         } catch (\Exception $e) {
             Log::error('Event Edit Error: ' . $e->getMessage());
-            return back()->with('error', 'Unable to edit event');
+            return redirect()->route('admin.event-management')->with('error', 'Unable to edit event');
         }
     }
 
     /**
      * Update the specified event
      */
-    public function update(Request $request, Event $event, $id)
+    public function update(Request $request, $id)
     {
         try {
+
+            // dd($request->all());
+
+            $event = Event::findOrFail($id);
+
             $validated = $request->validate([
                 'title' => 'required|max:255',
                 'description' => 'nullable',
@@ -176,6 +196,8 @@ class eventController extends Controller
                 'organizer' => 'required|max:255'
             ]);
 
+            // dd($validated);
+
             // Handle poster upload if new file is provided
             if ($request->hasFile('poster')) {
                 // Delete old poster
@@ -187,11 +209,15 @@ class eventController extends Controller
             }
 
             $validated['slug'] = Str::slug($validated['title']);
+
+
             $event->update($validated);
 
-            return redirect()->route('admin.event-update', $id)
+
+            return redirect()->route('admin.event-management')
                 ->with('success', 'Event updated successfully');
         } catch (\Exception $e) {
+            // dd('validation exception', $e);
             return back()->with('error', 'Failed to update event')
                 ->withInput();
         }
@@ -208,7 +234,7 @@ class eventController extends Controller
             }
 
             $event->delete();
-            return redirect()->route('events.index')
+            return redirect()->route('admin.event-management')
                 ->with('success', 'Event deleted successfully');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to delete event');

@@ -28,8 +28,11 @@
 
             <select name="status" class="px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-green-200">
                 <option value="">Semua Status</option>
+                <option value="coming_soon" {{ request('status') == 'coming_soon' ? 'selected' : '' }}>Coming Soon</option>
+                <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>Ongoing</option>
                 <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published</option>
+                <option value="ended" {{ request('status') == 'ended' ? 'selected' : '' }}>Ended</option>
+                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
             </select>
 
             <button type="submit" 
@@ -70,9 +73,8 @@
                            class="text-green-600 hover:text-green-800 font-medium text-sm">Lihat</a>
                         <a href="{{ route('admin.event-edit', $event->id) }}" 
                            class="text-blue-600 hover:text-blue-800 font-medium text-sm">Edit</a>
-                        <form action="{{-- route('admin.events.destroy', $event->id) --}}" method="POST" class="inline">
+                        <form action="{{ route('admin.events-destroy', $event->id) }}" method="POST" class="inline">
                             @csrf
-                            @method('DELETE')
                             <button type="submit" 
                                     onclick="return confirm('Yakin ingin menghapus event ini?')" 
                                     class="text-red-600 hover:text-red-800 font-medium text-sm">

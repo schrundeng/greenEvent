@@ -86,7 +86,7 @@
             <select name="status" id="status" 
                     class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400">
                 <option value="draft">Draft</option>
-                <option value="published">Published</option>
+                <option value="coming_soon">Coming Soon</option>
             </select>
         </div>
 

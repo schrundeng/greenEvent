@@ -14,16 +14,16 @@ class dashboardController extends Controller
     {
         $query = Event::query();
 
-    if ($request->filled('category')) {
-        $query->where('category_id', $request->category);
-    }
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
 
-    if ($request->filled('search')) {
-        $query->where('title', 'ILIKE', '%' . $request->search . '%');
-    }
+        if ($request->filled('search')) {
+            $query->where('title', 'ILIKE', '%' . $request->search . '%');
+        }
 
-    $events = $query->latest()->get();
-    $categories = Categories::all();
+        $events = $query->latest()->get();
+        $categories = Categories::all();
 
         return view('user.dashboard', compact('categories', 'events'));
     }
@@ -37,13 +37,18 @@ class dashboardController extends Controller
         // $totalRegistrations = DB::table('regis')->count();
 
         $totalEvents = Event::count();
-
+        $latestUsers = User::latest()->take(3)->get();
         // Get total users (excluding admins)
         $totalUsers = User::where('role', 'user')->count();
 
         // Get total registrations
         $totalRegistrations = DB::table('regis')->count();
-
+        $statusCount = [
+            'ongoing' => Event::where('status', 'ongoing')->count(),
+            'coming_soon' => Event::where('status', 'coming_soon')->count(),
+            'ended' => Event::where('status', 'ended')->count(),
+            'cancelled' => Event::where('status', 'cancelled')->count(),
+        ];
         // Get latest events with relationships
         $events = Event::with(['creator', 'category'])
             ->latest()
@@ -53,7 +58,9 @@ class dashboardController extends Controller
         return view('admin.dashboard', compact(
             'totalEvents',
             'totalUsers',
+            'statusCount',
             'totalRegistrations',
+            'latestUsers',
             'events'
         ));
 

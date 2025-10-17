@@ -26,7 +26,8 @@ Route::resource('categories', CategoriesController::class);
 Route::prefix('user')->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'index'])->name('user.dashboard');
     Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
-    Route::get('/edit-profile', [userController::class, 'edit'])->name('user.user-edit');
+    Route::get('/edit/profile', [userController::class, 'edit'])->name('user.user-edit');
+    Route::put('/update-profile', [UserController::class, 'update'])->name('user.user-update');
     Route::get('/registration/{idOrSlug}', [RegisController::class, 'create'])->name('user.event-register');
     Route::post('/registration/{idOrSlug}', [RegisController::class, 'store'])->name('user.event-register.store');
     Route::get('/history', [RegisController::class, 'userHistory'])->name('user.event-history');
@@ -37,9 +38,11 @@ Route::prefix('user')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'adminIndex'])->name('admin.dashboard');
     Route::get('/manage/users', [userController::class, 'index'])->name('admin.user-management');
+    Route::get('/manage/users/export', [userController::class, 'export'])->name('admin.users-export');
+
     Route::get('/manage/events', [eventController::class, 'adminIndex'])->name('admin.event-management');
     Route::post('/event/store', [EventController::class, 'store'])->name('admin.events-store');
-
+    Route::post('/event/destroy/{event}', [EventController::class, 'destroy'])->name('admin.events-destroy');
     Route::get('/event/create', [EventController::class, 'create'])->name('admin.create-edit');
     Route::get('/edit/event/{id}', [EventController::class, 'edit'])->name('admin.event-edit');
     Route::post('/edit/event/update/{id}', [EventController::class, 'update'])->name('admin.event-update');

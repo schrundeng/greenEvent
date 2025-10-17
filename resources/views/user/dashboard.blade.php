@@ -8,7 +8,7 @@
         Swal.fire({
             icon: 'success',
             title: 'Login Berhasil!',
-            text: '{{ session(`success`) }} {{ auth()->check() ? auth()->user()->name : "" }}!',
+            text: '{{ session('success') }} {{ auth()->check() ? auth()->user()->name : "" }}!',
             confirmButtonColor: '#16a34a',
             timer: 2500,
             showConfirmButton: false
@@ -58,7 +58,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 @foreach ($events as $event)
                 {{-- Sembunyikan event yang sudah berakhir --}}
-                @if ($event->status !== 'ended')
+                @if (!in_array($event->status, ['ended', 'draft']))
                 <div
                     class="bg-white rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1 p-4 flex flex-col">
                     {{-- Poster Event --}}

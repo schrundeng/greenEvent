@@ -4,23 +4,24 @@
 <div class="max-w-7xl mx-auto py-8 px-4">
     <h1 class="text-3xl font-bold text-green-700 mb-6">Dashboard Admin</h1>
 
-@if(session('success'))
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        Swal.fire({
-            icon: 'success',
-            title: 'Login Berhasil!',
-            text: '{{ session(`success`) }} {{ auth()->check() ? auth()->user()->name : "" }}!',
-            confirmButtonColor: '#16a34a',
-            timer: 2500,
-            showConfirmButton: false
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Login Berhasil!',
+                text: '{{ session('
+                success ') }} {{ auth()->check() ? auth()->user()->name : "" }}!',
+                confirmButtonColor: '#16a34a',
+                timer: 2500,
+                showConfirmButton: false
+            });
         });
-    });
-</script>
-@endif
+    </script>
+    @endif
 
     {{-- Statistik Utama --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
             <h2 class="text-sm font-medium text-gray-500 uppercase">Total Event</h2>
             <p class="text-3xl font-bold text-green-700 mt-2">{{ $totalEvents ?? 0 }}</p>
@@ -70,7 +71,7 @@
             <a href="{{--route('admin.events.index', ['status' => 'ongoing'--}}"
                 class="flex items-center gap-3 bg-yellow-50 border border-yellow-200 hover:bg-yellow-100 transition rounded-lg p-3">
                 <div class="bg-yellow-500 text-white p-3 rounded">
-<i class="fa-solid fa-calendar"></i>
+                    <i class="fa-solid fa-calendar"></i>
                 </div>
                 <div>
                     <p class="font-medium text-yellow-800">Event Berlangsung</p>
@@ -79,19 +80,67 @@
             </a>
 
             {{-- Review Pendaftaran --}}
-            <a href="{{--route('admin.registrations.index')--}}"
+            <a href="{{route('admin.event-management')}}"
                 class="flex items-center gap-3 bg-purple-50 border border-purple-200 hover:bg-purple-100 transition rounded-lg p-3">
                 <div class="bg-purple-600 text-white p-3 rounded">
                     <i class="fa-solid fa-check"></i>
                 </div>
                 <div>
-                    <p class="font-medium text-purple-800">Review Pendaftaran</p>
-                    <p class="text-sm text-gray-500">Kelola data peserta event</p>
+                    <p class="font-medium text-purple-800">Manajamen Event</p>
+                    <p class="text-sm text-gray-500">Kelola data event</p>
                 </div>
             </a>
 
         </div>
     </div>
+    <div class="flex flex-wrap gap-6 mt-2 mb-2">
+    {{-- Statistik Status Event (40%) --}}
+    <div class="w-full lg:w-1/4 bg-white rounded-lg shadow-md p-4 mb-8">
+            <h2 class="text-sm font-medium text-gray-600 uppercase mb-4 ">Event Status Monitoring</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div class="bg-green-50 p-4 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-sm font-medium text-gray-600 uppercase">Ongoing</h2>
+                <p class="text-3xl font-bold text-green-700 mt-2">{{$statusCount['ongoing'] ?? 0}}</p>
+            </div>
+
+            <div class="bg-yellow-50 p-4 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-sm font-medium text-gray-600 uppercase">Coming Soon</h2>
+                <p class="text-3xl font-bold text-yellow-700 mt-2">{{$statusCount['coming_soon'] ?? 0}}</p>
+            </div>
+
+            <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-sm font-medium text-gray-600 uppercase">Ended</h2>
+                <p class="text-3xl font-bold text-gray-700 mt-2">{{$statusCount['ended'] ?? 0}}</p>
+            </div>
+
+            <div class="bg-red-50 p-4 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-sm font-medium text-gray-600 uppercase">Cancelled</h2>
+                <p class="text-3xl font-bold text-red-700 mt-2">{{$statusCount['cancelled'] ?? 0}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full lg:w-2/5">
+        {{-- User Baru Bergabung --}}
+<div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+    <h2 class="text-lg font-bold text-gray-800 mb-4">👥 User Baru Bergabung</h2>
+
+    <ul class="space-y-3">
+        @forelse ($latestUsers as $user)
+            <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                <span class="text-gray-700 font-medium">@ {{$user->username}}</span>
+                <span class="text-sm text-gray-500">
+                    joined {{$user->created_at->diffForHumans()}}
+                </span>
+            </li>
+        @empty
+            <li class="text-gray-500 italic">Belum ada pengguna baru.</li>
+        @endforelse
+    </ul>
+</div>
+
+    </div>
+</div>
 
 
     {{-- Daftar Event Terbaru --}}
@@ -117,14 +166,21 @@
                 </thead>
                 <tbody>
                     @foreach($events as $event)
+                    {{-- Status badge --}}
                     @php
-                    $statusColor = match($event->status) {
+                    $statusLabels = [
+                    'ongoing' => 'Ongoing',
+                    'coming_soon' => 'Coming Soon',
+                    'cancelled' => 'Cancelled',
+                    'ended' => 'Ended',
+                    ];
+
+                    $statusColors = [
                     'ongoing' => 'bg-green-100 text-green-700',
                     'coming_soon' => 'bg-yellow-100 text-yellow-700',
-                    'ended' => 'bg-gray-200 text-gray-700',
                     'cancelled' => 'bg-red-100 text-red-700',
-                    default => 'bg-gray-100 text-gray-600'
-                    };
+                    'ended' => 'bg-gray-200 text-gray-600',
+                    ];
                     @endphp
 
                     <tr class="border-b hover:bg-green-50">
@@ -132,9 +188,10 @@
                         <td class="px-4 py-2">{{ $event->category->name ?? '-' }}</td>
                         <td class="px-4 py-2">{{ $event->start_date->format('d/m/Y') }}</td>
                         <td class="px-4 py-2">
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $statusColor }}">
-                                {{ ucfirst($event->status) }}
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $statusColors[$event->status] ?? 'bg-gray-100 text-gray-500' }}">
+                                {{ $statusLabels[$event->status] ?? ucfirst($event->status) }}
                             </span>
+
                         </td>
                         <td class="px-4 py-2 text-right">
                             <a href="{{ route('event.detail.show', $event->id) }}"

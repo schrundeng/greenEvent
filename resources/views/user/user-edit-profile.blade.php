@@ -11,7 +11,7 @@
             </div>
         @endif
 
-        <form action="{{--route('user.profile.update')--}}" method="POST">
+        <form action="{{route('user.user-update')}}" method="POST">
             @csrf
             @method('PUT')
 
@@ -35,8 +35,17 @@
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
             </div>
 
+            <div class="mb-4">
+            <label for="current_password" class="block text-gray-700 font-semibold mb-1">
+                Password Lama
+            </label>
+            <input type="password" id="current_password" name="current_password"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500">
+            </div>
+
+
             <div class="flex justify-end gap-3">
-                <a href="{{-- route('user.profile') --}}" class="px-6 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Batal</a>
+                <a href="{{route('user.profile')}}" class="px-6 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Batal</a>
                 <button type="submit" class="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700">
                     Simpan
                 </button>
