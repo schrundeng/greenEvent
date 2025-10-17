@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Carbon\Carbon;
 
 use App\Models\Event;
@@ -129,10 +130,10 @@ class eventController extends Controller
 
             $validated['created_by'] = Auth::id();
             $validated['slug'] = Str::slug($validated['title']);
-            
+
 
             // dd($validated);
-            
+
 
             Event::create($validated);
 
@@ -148,12 +149,12 @@ class eventController extends Controller
     /**
      * Display the specified event
      */
-    public function show($idOrSlug)
+    public function show(Event $event)
     {
         try {
-            $event = Event::where('id', $idOrSlug)
-                ->orWhere('slug', $idOrSlug)
-                ->firstOrFail();
+            // $event = Event::where('id', $idOrSlug)
+            //     ->orWhere('slug', $idOrSlug)
+            //     ->firstOrFail();
 
             $longitude = $event->longitude;
             $latitude = $event->latitude;
@@ -167,11 +168,10 @@ class eventController extends Controller
     /**
      * Show the form for editing the specified event
      */
-    public function edit()
+    public function edit(Event $event)
     {
         try {
             $categories = Categories::all();
-            $event = Event::findOrFail(request()->id);
             $id = $event->id;
             return view('admin.event-edit', compact('event', 'categories', 'id'));
         } catch (\Exception $e) {
@@ -183,19 +183,11 @@ class eventController extends Controller
     /**
      * Update the specified event
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Event $event)
     {
         try {
-
-            // dd($request->all());
-
-            $event = Event::findOrFail($id);
-
-
-
-
-            
             $validated = $request->validate([
+                'title' => 'required|max:255',
                 'description' => 'nullable',
                 'status' => 'enum:draft,coming_soon,ongoing,ended,cancelled',
                 'category_id' => 'required|exists:categories,id',
@@ -207,8 +199,6 @@ class eventController extends Controller
                 'poster' => 'nullable|image|max:2048',
                 'organizer' => 'required|max:255'
             ]);
-
-            // dd($validated);
 
             // Handle poster upload if new file is provided
             if ($request->hasFile('poster')) {
@@ -229,7 +219,7 @@ class eventController extends Controller
             return redirect()->route('admin.event-management')
                 ->with('success', 'Event updated successfully');
         } catch (\Exception $e) {
-            // dd('validation exception', $e);
+            dd('validation exception', $e);
             return back()->with('error', 'Failed to update event')
                 ->withInput();
         }

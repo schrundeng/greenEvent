@@ -35,13 +35,17 @@ class RegisController extends Controller
         }
     }
 
-    public function create($idOrSlug)
+    public function create(Event $event)
     {
         try {
-            $event = Event::where('id', $idOrSlug)
-                ->orWhere('slug', $idOrSlug)
-                ->where('status', '!=', 'ended')
-                ->firstOrFail();
+            // $event = Event::where('id', $idOrSlug)
+            //     ->orWhere('slug', $idOrSlug)
+            //     ->where('status', '!=', 'ended')
+            //     ->firstOrFail();
+            if ($event->status === 'ended') {
+                return redirect()->route('events')
+                    ->with('error', 'This event has already ended.');
+            }
 
             // Check if user is already registered
             $isRegistered = Regis::where('user_id', Auth::id())
@@ -50,7 +54,7 @@ class RegisController extends Controller
 
             return view('user.event-register', compact('event', 'isRegistered'));
         } catch (\Exception $e) {
-            return redirect()->route('events', $idOrSlug)
+            return redirect()->route('events', $event)
                 ->with('error', 'Unable to load registration form.');
         }
     }

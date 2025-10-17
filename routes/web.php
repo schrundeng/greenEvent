@@ -28,8 +28,8 @@ Route::prefix('user')->group(function () {
     Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
     Route::get('/edit/profile', [userController::class, 'edit'])->name('user.user-edit');
     Route::put('/update-profile', [UserController::class, 'update'])->name('user.user-update');
-    Route::get('/registration/{idOrSlug}', [RegisController::class, 'create'])->name('user.event-register');
-    Route::post('/registration/{idOrSlug}', [RegisController::class, 'store'])->name('user.event-register.store');
+    Route::get('/registration/{event}', [RegisController::class, 'create'])->name('user.event-register');
+    Route::post('/registration/{event}', [RegisController::class, 'store'])->name('user.event-register.store');
     Route::get('/history', [RegisController::class, 'userHistory'])->name('user.event-history');
     Route::get('/event-register', [RegisController::class, 'create'])->name('user.event-register');
 });
@@ -45,12 +45,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/event/store', [EventController::class, 'store'])->name('admin.events-store');
     Route::post('/event/destroy/{event}', [EventController::class, 'destroy'])->name('admin.events-destroy');
     Route::get('/event/create', [EventController::class, 'create'])->name('admin.create-edit');
-    Route::get('/edit/event/{id}', [EventController::class, 'edit'])->name('admin.event-edit');
-    Route::post('/edit/event/update/{id}', [EventController::class, 'update'])->name('admin.event-update');
+    Route::get('/edit/event/{event}', [EventController::class, 'edit'])->name('admin.event-edit');
+    Route::post('/edit/event/update/{event}', [EventController::class, 'update'])->name('admin.event-update');
 });
 
 
 // Event Pages
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/event-detail', [EventController::class, 'index'])->name('event.detail.index');
-Route::get('/event-detail/{idOrSlug}', [EventController::class, 'show'])->name('events.detail.show');
+Route::get('/event-detail/{event}', [EventController::class, 'show'])->name('events.detail.show');
