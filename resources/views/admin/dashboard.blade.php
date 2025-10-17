@@ -194,7 +194,7 @@
 
                         </td>
                         <td class="px-4 py-2 text-right">
-                            <a href="{{ route('event.detail.show', $event->id) }}"
+                            <a href="{{ route('event.detail.index', $event->id) }}"
                                 class="text-green-600 hover:text-green-800 font-medium text-sm">
                                 Detail
                             </a>

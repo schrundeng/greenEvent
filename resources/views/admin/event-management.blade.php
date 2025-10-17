@@ -96,7 +96,7 @@
 
     {{-- Pagination --}}
     <div class="mt-6">
-        {{-- $events->links() --}}
+        {{ $events->links() }}
     </div>
 </div>
 @endsection

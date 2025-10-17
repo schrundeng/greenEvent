@@ -31,6 +31,7 @@ Route::prefix('user')->group(function () {
     Route::get('/registration/{idOrSlug}', [RegisController::class, 'create'])->name('user.event-register');
     Route::post('/registration/{idOrSlug}', [RegisController::class, 'store'])->name('user.event-register.store');
     Route::get('/history', [RegisController::class, 'userHistory'])->name('user.event-history');
+    Route::get('/event-register', [RegisController::class, 'create'])->name('user.event-register');
 });
 
 
@@ -51,6 +52,5 @@ Route::prefix('admin')->group(function () {
 
 // Event Pages
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/event-detail', [EventController::class, 'index'])->name('event.detail.show');
-Route::get('/event-register', [RegisController::class, 'create'])->name('user.event-register');
+Route::get('/event-detail', [EventController::class, 'index'])->name('event.detail.index');
 Route::get('/event-detail/{idOrSlug}', [EventController::class, 'show'])->name('events.detail.show');

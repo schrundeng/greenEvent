@@ -11,20 +11,21 @@ class Event extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'created_by',
-        'category_id',
         'title',
         'description',
-        'slug',
         'status',
+        'category_id',
         'start_date',
         'end_date',
         'location',
         'longitude',
         'latitude',
         'poster',
-        'organizer'
+        'organizer',
+        'created_by',
+        'slug',
     ];
+
 
     protected $casts = [
         'start_date' => 'datetime',
@@ -34,7 +35,11 @@ class Event extends Model
     ];
 
     protected $attributes = [
-        'status' => 'draft', 'coming_soon', 'ongoing', 'ended', 'cancelled'
+        'status' => 'draft',
+        // 'coming_soon',
+        // 'ongoing',
+        // 'ended',
+        // 'cancelled'
     ];
 
     // Relationship with User model
@@ -48,6 +53,4 @@ class Event extends Model
     {
         return $this->belongsTo(Categories::class);
     }
-
-
 }

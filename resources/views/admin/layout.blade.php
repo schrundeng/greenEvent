@@ -48,7 +48,7 @@
         @yield('content')
     </main>
 <footer class="bg-gray-100 border-t mt-16 py-10">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10 text-sm text-gray-700">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 text-sm text-gray-700">
 
             <div>
                 <h4 class="font-semibold mb-3">Tentang Kami</h4>

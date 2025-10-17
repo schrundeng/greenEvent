@@ -61,9 +61,8 @@ class dashboardController extends Controller
             'statusCount',
             'totalRegistrations',
             'latestUsers',
-            'events'
+            'events',
+            'categories'
         ));
-
-        return view('admin.dashboard', compact('categories', 'events'));
     }
 }

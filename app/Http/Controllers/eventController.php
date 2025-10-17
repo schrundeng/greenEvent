@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use App\Models\Event;
 use App\Models\Categories;
@@ -52,52 +53,52 @@ class eventController extends Controller
     }
 
 
-   public function adminIndex(Request $request)
-{
-    try {
-        $categories = Categories::all();
+    public function adminIndex(Request $request)
+    {
+        try {
+            $categories = Categories::all();
 
-        // Hitung data untuk statistik
-        $totalEvents = Event::count();
-        $totalUsers = User::where('role', 'user')->count();
-        $totalRegistrations = DB::table('regis')->count();
+            // Hitung data untuk statistik
+            $totalEvents = Event::count();
+            $totalUsers = User::where('role', 'user')->count();
+            $totalRegistrations = DB::table('regis')->count();
 
-        // Query dasar untuk event
-        $query = Event::with(['creator', 'category']);
+            // Query dasar untuk event
+            $query = Event::with(['creator', 'category']);
 
-        // Filter berdasarkan pencarian (judul / lokasi)
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('title', 'ILIKE', '%' . $request->search . '%')
-                  ->orWhere('location', 'ILIKE', '%' . $request->search . '%');
-            });
+            // Filter berdasarkan pencarian (judul / lokasi)
+            if ($request->filled('search')) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('title', 'ILIKE', '%' . $request->search . '%')
+                        ->orWhere('location', 'ILIKE', '%' . $request->search . '%');
+                });
+            }
+
+            // Filter berdasarkan kategori
+            if ($request->filled('category')) {
+                $query->where('category_id', $request->category);
+            }
+
+            // Filter berdasarkan status
+            if ($request->filled('status')) {
+                $query->where('status', $request->status);
+            }
+
+            // Ambil event sesuai filter (paginate biar rapi)
+            $events = $query->latest()->paginate(10);
+
+
+            return view('admin.event-management', compact(
+                'totalEvents',
+                'totalUsers',
+                'totalRegistrations',
+                'events',
+                'categories'
+            ));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        // Filter berdasarkan kategori
-        if ($request->filled('category')) {
-            $query->where('category_id', $request->category);
-        }
-
-        // Filter berdasarkan status
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        // Ambil event sesuai filter (paginate biar rapi)
-        $events = $query->latest()->paginate(10);
-
-        return view('admin.event-management', compact(
-            'totalEvents',
-            'totalUsers',
-            'totalRegistrations',
-            'events',
-            'categories'
-        ));
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
-}
 
 
     /**
@@ -109,6 +110,7 @@ class eventController extends Controller
             $validated = $request->validate([
                 'title' => 'required|max:255',
                 'description' => 'nullable',
+                'status' => 'required|string',
                 'category_id' => 'required|exists:categories,id',
                 'start_date' => 'required|date',
                 'end_date' => 'nullable|date|after:start_date',
@@ -127,12 +129,19 @@ class eventController extends Controller
 
             $validated['created_by'] = Auth::id();
             $validated['slug'] = Str::slug($validated['title']);
+            
+
+            // dd($validated);
+            
 
             Event::create($validated);
+
 
             return redirect()->route('events.index')
                 ->with('success', 'Event created successfully');
         } catch (\Exception $e) {
+            dd('validation exception', $e);
+            return back()->with('error', 'Failed to create event');
         }
     }
 
@@ -182,8 +191,11 @@ class eventController extends Controller
 
             $event = Event::findOrFail($id);
 
+
+
+
+            
             $validated = $request->validate([
-                'title' => 'required|max:255',
                 'description' => 'nullable',
                 'status' => 'enum:draft,coming_soon,ongoing,ended,cancelled',
                 'category_id' => 'required|exists:categories,id',

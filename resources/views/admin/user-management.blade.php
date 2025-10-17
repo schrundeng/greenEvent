@@ -73,7 +73,7 @@
 
     {{-- Pagination --}}
     <div class="mt-6">
-        {{-- $users->links() --}}
+        {{ $users->links() }}
     </div>
 </div>
 @endsection

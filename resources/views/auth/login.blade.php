@@ -14,7 +14,7 @@
         Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
-            text: '{{ session(`success`) }}',
+            text: '{{ session('success') }}',
             confirmButtonColor: '#16a34a', // hijau Tailwind
         });
     });
@@ -88,10 +88,6 @@
                 </div>
 
                 <div class="flex items-center justify-between mb-4">
-                    <label class="flex items-center text-sm text-gray-700">
-                        <input type="checkbox" name="remember" class="mr-2 rounded border-gray-300 text-[#00C853] focus:ring-[#00C853]">
-                        Remember me
-                    </label>
 
                     @if (Route::has('password.request'))
                         <a href="{{ route('password.request') }}" class="text-sm text-[#00C853] font-semibold hover:underline">

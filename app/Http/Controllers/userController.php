@@ -12,6 +12,7 @@ class userController extends Controller
     public function index()
     {
         $users = User::all();
+        $users = User::paginate(10);
         return view('admin.user-management', compact('users'));
     }
     public function profile()
