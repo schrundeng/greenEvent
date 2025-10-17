@@ -4,52 +4,50 @@
 <div class="max-w-6xl mx-auto py-10 px-4">
 
     {{-- Judul Event --}}
-    <h1 class="text-3xl font-bold text-green-700 mb-4">{{ $event->title }}</h1>
+    <h1 class="text-3xl font-bold text-green-700 mb-4" data-aos="fade-down">{{ $event->title }}</h1>
 
-    <div class="flex flex-col md:flex-row gap-8">
+    <div class="flex flex-col md:flex-row gap-8" data-aos="fade-up" data-aos-delay="100">
         {{-- Poster --}}
-        <div class="md:w-2/5 w-full rounded-lg shadow-md overflow-hidden">
+        <div class="md:w-2/5 w-full rounded-lg shadow-md overflow-hidden" data-aos="zoom-in" data-aos-delay="200">
             <img src="{{ asset('storage/' . $event->poster) }}"
                 alt="{{ $event->title }}"
                 class="rounded-lg shadow-md">
         </div>
 
         {{-- Info Event --}}
-        <div class="md:w-3/5 w-full space-y-4">
+        <div class="md:w-3/5 w-full space-y-4" data-aos="fade-left" data-aos-delay="300">
             <div class="bg-white shadow-lg rounded-2xl p-6 border border-gray-100">
                 {{-- Header Event --}}
                 <div class="flex justify-between items-start border-b border-gray-200 pb-4 mb-4">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800">{{ $event->title }}</h1>
                     </div>
-
-                    {{-- Status badge --}}
+                    
+{{-- Status badge --}}
                     @php
-    $statusLabels = [
-        'ongoing' => 'Ongoing',
-        'coming_soon' => 'Coming Soon',
-        'cancelled' => 'Cancelled',
-        'ended' => 'Ended',
-    ];
+                        $statusLabels = [
+                            'ongoing' => 'Ongoing',
+                            'coming_soon' => 'Coming Soon',
+                            'cancelled' => 'Cancelled',
+                            'ended' => 'Ended',
+                        ];
 
-    $statusColors = [
-        'ongoing' => 'bg-green-100 text-green-700',
-        'coming_soon' => 'bg-yellow-100 text-yellow-700',
-        'cancelled' => 'bg-red-100 text-red-700',
-        'ended' => 'bg-gray-200 text-gray-600',
-    ];
-@endphp
+                        $statusColors = [
+                            'ongoing' => 'bg-green-100 text-green-700',
+                            'coming_soon' => 'bg-yellow-100 text-yellow-700',
+                            'cancelled' => 'bg-red-100 text-red-700',
+                            'ended' => 'bg-gray-200 text-gray-600',
+                        ];
+                    @endphp
 
-<span class="px-3 py-1 text-sm font-semibold rounded-full
-    {{ $statusColors[$event->status] ?? 'bg-gray-100 text-gray-500' }}">
-    {{ $statusLabels[$event->status] ?? ucfirst($event->status) }}
-</span>
-
+                    <span class="px-3 py-1 text-sm font-semibold rounded-full
+                        {{ $statusColors[$event->status] ?? 'bg-gray-100 text-gray-500' }}">
+                        {{ $statusLabels[$event->status] ?? ucfirst($event->status) }}
+                    </span>
                 </div>
 
-                {{-- Grid Info --}}
                 {{-- Info Grid --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700" data-aos="fade-up" data-aos-delay="400">
                     {{-- Kolom Kiri --}}
                     <div class="space-y-3">
                         <div class="flex items-center gap-2">
@@ -112,11 +110,12 @@
                     </div>
                 </div>
 
-            {{-- Tombol Daftar --}}
-            <a href="{{ route('user.event-register', $event->slug ?? $event->id) }}"
-                class="inline-block mt-4 px-6 py-3 bg-green-600 text-white font-medium rounded hover:bg-green-700">
-                Daftar Event
-            </a>
+                {{-- Tombol Daftar --}}
+                <a href="{{ route('user.event-register', $event->slug ?? $event->id) }}"
+                    class="inline-block mt-4 px-6 py-3 bg-green-600 text-white font-medium rounded hover:bg-green-700"
+                    data-aos="zoom-in" data-aos-delay="500">
+                    Daftar Event
+                </a>
 
                 {{-- Deskripsi --}}
                 <div class="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-100 shadow-sm">
@@ -132,7 +131,7 @@
     </div>
 
     {{-- Peta Lokasi --}}
-    <div class="mt-10">
+    <div class="mt-10" data-aos="fade-up" data-aos-delay="700">
         <h2 class="text-2xl font-semibold text-green-700 mb-4">Lokasi Event</h2>
         <div id="map" class="w-full h-[400px] rounded-lg shadow-md"></div>
     </div>

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('landing');
 });
+Route::get('/about', function () {
+    return view('about');
+});
 
 // Auth routes (register, login, logout)
 require __DIR__ . '/auth.php';

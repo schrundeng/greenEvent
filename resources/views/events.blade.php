@@ -8,8 +8,12 @@
     <p class="text-center text-gray-500">Tidak ada event yang tersedia saat ini.</p>
     @else
     <div class="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
-        @foreach($events as $event)
-        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+ @foreach($events as $index => $event)
+<div 
+    class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300"
+    data-aos="fade-up"
+    data-aos-delay="{{ $index * 100 }}"
+>
             <!-- Poster -->
             @if($event->poster)
             <img src="{{ asset('storage/' . $event->poster) }}"

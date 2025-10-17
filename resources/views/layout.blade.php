@@ -19,8 +19,6 @@
     </div>
     Green Event
 </a>
-
-
         <!-- Navigation Links -->
         <div class="flex items-center space-x-6">
             <a href="{{ route('user.dashboard') }}" 
