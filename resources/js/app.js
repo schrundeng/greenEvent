@@ -7,7 +7,12 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 AOS.init({
+  delay : 100,
   duration: 800, // kecepatan animasi (ms)
   easing: 'ease-in-out', // transisi halus
   once: true, // animasi hanya jalan sekali
 });
+
+import Swal from 'sweetalert2'
+window.Swal = Swal
+

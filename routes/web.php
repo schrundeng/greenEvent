@@ -4,7 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\eventController as ControllersEventController;
 use App\Http\Controllers\RegisController;
+use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,28 +25,24 @@ Route::resource('categories', CategoriesController::class);
 // User Pages
 Route::prefix('user')->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'index'])->name('user.dashboard');
-    Route::view('/profile', 'user.user-profile')->name('user.profile');
-    Route::view('/edit-profile', 'user.user-edit-profile')->name('user.user-edit');
-    Route::view('/history', 'user.history')->name('user.history');
-
-    // GET route for showing the form
-    Route::get('/registration/{idOrSlug}', [RegisController::class, 'create'])
-        ->name('user.event-register');
-
-    // POST route for handling the form submission
-    Route::post('/registration/{idOrSlug}', [RegisController::class, 'store'])
-        ->name('user.event-register.store');
+    Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
+    Route::get('/edit-profile', [userController::class, 'edit'])->name('user.user-edit');
+    Route::get('/registration/{idOrSlug}', [RegisController::class, 'create'])->name('user.event-register');
+    Route::post('/registration/{idOrSlug}', [RegisController::class, 'store'])->name('user.event-register.store');
+    Route::get('/history', [RegisController::class, 'userHistory'])->name('user.event-history');
 });
 
 
 // Admin Pages
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'adminIndex'])->name('admin.dashboard');
-    Route::view('/manageusers', 'admin.user-management')->name('admin.user-manage');
-    Route::view('/manage/events', 'admin.event-management')->name('admin.event-manage');
+    Route::get('/manage/users', [userController::class, 'index'])->name('admin.user-management');
+    Route::get('/manage/events', [eventController::class, 'adminIndex'])->name('admin.event-management');
     Route::post('/event/store', [EventController::class, 'store'])->name('admin.events-store');
+
     Route::get('/event/create', [EventController::class, 'create'])->name('admin.create-edit');
-    Route::get('/edit/event', [EventController::class, 'edit'])->name('admin.event-edit');
+    Route::get('/edit/event/{id}', [EventController::class, 'edit'])->name('admin.event-edit');
+    Route::post('/edit/event/update/{id}', [EventController::class, 'update'])->name('admin.event-update');
 });
 
 

@@ -6,6 +6,9 @@
     <title>Green Event Malang</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="{{ asset('favicon.ico') }}?">
+
+
 </head>
 <body class="antialiased">
 
@@ -43,13 +46,13 @@
 
     <!-- HERO -->
     <section class="bg-gradient-to-b from-green-300 to-white text-center py-20">
-    <h1 data-aos="fade-up" class="text-4xl font-extrabold text-gray-800">
+    <h1 data-aos="fade-up" data-aos-delay="400" class="text-4xl font-extrabold text-gray-800">
         Bersama Menanam Perubahan di Kota Malang
     </h1>
-    <p data-aos="fade-up" data-aos-delay="150" class="mt-4 text-lg text-gray-700">
+    <p data-aos="fade-up" data-aos-delay="400" class="mt-4 text-lg text-gray-700">
         Temukan, ikuti, dan dukung event ramah lingkungan — dari aksi bersih sungai hingga workshop daur ulang kreatif.
     </p>
-    <div data-aos="fade-up" data-aos-delay="300" class="mt-6 flex justify-center gap-4">
+    <div data-aos="fade-up" data-aos-delay="400" class="mt-6 flex justify-center gap-4">
         <a href="{{ route('register') }}" class="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700">
             🌱 Daftar Sekarang
         </a>

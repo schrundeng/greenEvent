@@ -18,7 +18,7 @@
                         <p class="text-sm text-gray-600">📍 {{ $reg->event->location }}</p>
                         <p class="text-sm text-gray-500">Status Pendaftaran: <span class="font-medium">{{ ucfirst($reg->status) }}</span></p>
                     </div>
-                    <a href="{{ route('user.events.show', $reg->event->slug) }}" 
+                    <a href="{{ route('events.index', $reg->event->slug) }}" 
                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
                         Detail
                     </a>

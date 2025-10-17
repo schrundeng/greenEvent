@@ -20,23 +20,38 @@ class RegisController extends Controller
         }
     }
 
+    public function userHistory()
+    {
+        try {
+            $event = Event::all();
+            $registrations = Regis::with(['event'])
+                ->where('user_id', Auth::id())
+                ->latest('registered_at')
+                ->get();
+
+            return view('user.event-history', compact('registrations'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Unable to load registration history.');
+        }
+    }
+
     public function create($idOrSlug)
     {
         try {
             $event = Event::where('id', $idOrSlug)
-                         ->orWhere('slug', $idOrSlug)
-                         ->where('status', '!=', 'ended')
-                         ->firstOrFail();
+                ->orWhere('slug', $idOrSlug)
+                ->where('status', '!=', 'ended')
+                ->firstOrFail();
 
             // Check if user is already registered
             $isRegistered = Regis::where('user_id', Auth::id())
-                                ->where('event_id', $event->id)
-                                ->exists();
+                ->where('event_id', $event->id)
+                ->exists();
 
             return view('user.event-register', compact('event', 'isRegistered'));
         } catch (\Exception $e) {
             return redirect()->route('events', $idOrSlug)
-                            ->with('error', 'Unable to load registration form.');
+                ->with('error', 'Unable to load registration form.');
         }
     }
 
@@ -56,10 +71,10 @@ class RegisController extends Controller
             Regis::create($validated);
 
             return redirect()->route('user.dashboard')
-                            ->with('success', 'Registration submitted successfully!');
+                ->with('success', 'Registration submitted successfully!');
         } catch (\Exception $e) {
             return back()->withInput()
-                        ->with('error', 'Registration failed. Please try again.');
+                ->with('error', 'Registration failed. Please try again.');
         }
     }
 
@@ -97,10 +112,10 @@ class RegisController extends Controller
             $registration->update($validated);
 
             return redirect()->route('registrations.index')
-                           ->with('success', 'Registration updated successfully.');
+                ->with('success', 'Registration updated successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Update failed.')
-                        ->withInput();
+                ->withInput();
         }
     }
 
@@ -109,7 +124,7 @@ class RegisController extends Controller
         try {
             $registration->delete();
             return redirect()->route('registrations.index')
-                           ->with('success', 'Registration deleted successfully.');
+                ->with('success', 'Registration deleted successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Delete failed.');
         }

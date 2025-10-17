@@ -22,7 +22,8 @@ class Event extends Model
         'location',
         'longitude',
         'latitude',
-        'poster'
+        'poster',
+        'organizer'
     ];
 
     protected $casts = [
@@ -33,7 +34,7 @@ class Event extends Model
     ];
 
     protected $attributes = [
-        'status' => 'draft'
+        'status' => 'draft', 'coming_soon', 'ongoing', 'ended', 'cancelled'
     ];
 
     // Relationship with User model
@@ -47,4 +48,6 @@ class Event extends Model
     {
         return $this->belongsTo(Categories::class);
     }
+
+
 }

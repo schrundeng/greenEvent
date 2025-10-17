@@ -99,7 +99,7 @@
 
         {{-- Tombol --}}
         <div class="flex justify-end space-x-3">
-            <a href="{{ route('events.index') }}" 
+            <a href="{{ route('admin.event-management') }}" 
                class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">Batal</a>
             <button type="submit" 
                     class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">

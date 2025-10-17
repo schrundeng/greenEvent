@@ -23,8 +23,8 @@
 
             <div class="mb-4">
                 <label for="email" class="block text-gray-700 font-semibold mb-1">Email</label>
-                <input type="email" id="email" name="email" value="{{-- auth()->user()->email --}}"
-                       class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                <input type="email" id="email" name="email" value="{{ auth()->user()->email}}"
+                       class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" readonly>
             </div>
 
             <div class="mb-4">

@@ -4,15 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Categories;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 class dashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Categories::all();
-        $events = Event::with(['category'])->latest()->get();
+        $query = Event::query();
+
+    if ($request->filled('category')) {
+        $query->where('category_id', $request->category);
+    }
+
+    if ($request->filled('search')) {
+        $query->where('title', 'ILIKE', '%' . $request->search . '%');
+    }
+
+    $events = $query->latest()->get();
+    $categories = Categories::all();
 
         return view('user.dashboard', compact('categories', 'events'));
     }

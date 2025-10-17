@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
             'role' => 'user',
         ]);
 
-        return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login')->with('success', 'Registration successful! Please login.');
 
        
     }

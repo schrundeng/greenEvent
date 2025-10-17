@@ -26,7 +26,7 @@ class eventController extends Controller
         } catch (\Exception $e) {
             // Log the error
             Log::error('Event Index Error: ' . $e->getMessage());
-            
+
             // In development, show the error
             if (config('app.debug')) {
                 dd([
@@ -36,7 +36,7 @@ class eventController extends Controller
                     'trace' => $e->getTraceAsString()
                 ]);
             }
-            
+
             // In production, return back with error message
             return back()->with('error', 'Unable to load events. Please try again later.');
         }
@@ -45,16 +45,18 @@ class eventController extends Controller
     /**
      * Show the form for creating a new event
      */
-   public function create()
-{
-    $categories = Categories::all();
-    return view('admin.event-create', compact('categories'));
-}
+    public function create()
+    {
+        $categories = Categories::all();
+        return view('admin.event-create', compact('categories'));
+    }
 
 
     public function adminIndex()
     {
         try {
+            $categories = Categories::all();
+
             // Get total events
             $totalEvents = Event::count();
 
@@ -62,7 +64,7 @@ class eventController extends Controller
             $totalUsers = User::where('role', 'user')->count();
 
             // Get total registrations
-            $totalRegistrations = DB::table('event_registrations')->count();
+            $totalRegistrations = DB::table('regis')->count();
 
             // Get latest events with relationships
             $events = Event::with(['creator', 'category'])
@@ -70,11 +72,12 @@ class eventController extends Controller
                 ->take(5)
                 ->get();
 
-            return view('admin.dashboard', compact(
+            return view('admin.event-management', compact(
                 'totalEvents',
                 'totalUsers',
                 'totalRegistrations',
-                'events'
+                'events',
+                'categories'
             ));
         } catch (\Exception $e) {
             return response()->view('errors.500', [], 500);
@@ -116,7 +119,6 @@ class eventController extends Controller
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
-
     }
 
     /**
@@ -144,22 +146,26 @@ class eventController extends Controller
     public function edit(Event $event)
     {
         try {
+            $event = Event::findOrFail($event);
             $categories = Categories::all();
-            return view('events.edit', compact('event', 'categories'));
+            $id = $event->id;
+            return view('admin.event-edit', compact('id','event', 'categories' ));
         } catch (\Exception $e) {
-            return response()->view('errors.500', [], 500);
+            Log::error('Event Edit Error: ' . $e->getMessage());
+            return back()->with('error', 'Unable to edit event');
         }
     }
 
     /**
      * Update the specified event
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, Event $event, $id)
     {
         try {
             $validated = $request->validate([
                 'title' => 'required|max:255',
                 'description' => 'nullable',
+                'status' => 'enum:draft,coming_soon,ongoing,ended,cancelled',
                 'category_id' => 'required|exists:categories,id',
                 'start_date' => 'required|date',
                 'end_date' => 'nullable|date|after:start_date',
@@ -183,7 +189,7 @@ class eventController extends Controller
             $validated['slug'] = Str::slug($validated['title']);
             $event->update($validated);
 
-            return redirect()->route('events.index')
+            return redirect()->route('admin.event-update', $id)
                 ->with('success', 'Event updated successfully');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to update event')

@@ -6,13 +6,13 @@
 
     <div class="bg-white shadow-md rounded-lg p-6">
         <div class="mb-4">
-            <p><span class="font-semibold">Username:</span> {{-- auth()->user()->username --}}</p>
+            <p><span class="font-semibold">Username:</span> {{ auth()->user()->username }}</p>
         </div>
         <div class="mb-4">
-            <p><span class="font-semibold">Email:</span> {{-- auth()->user()->email --}}</p>
+            <p><span class="font-semibold">Email:</span> {{ auth()->user()->email }}</p>
         </div>
         <div class="flex justify-end">
-            <a href="{{-- route('/user/edit-profile') --}}" 
+            <a href="{{ route('user.user-edit') }}" 
                class="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700">
                Edit Profil
             </a>

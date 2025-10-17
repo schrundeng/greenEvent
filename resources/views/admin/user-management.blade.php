@@ -41,11 +41,11 @@
                         </td>
                         <td class="px-6 py-4 text-center">
                             <div class="flex justify-center gap-2">
-                                <a href="{{ route('admin.users.show', $user->id) }}" 
+                                <a href="{{-- route('admin.users.show', $user->id) --}}" 
                                    class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Lihat</a>
-                                <a href="{{ route('admin.users.edit', $user->id) }}" 
+                                <a href="{{-- route('admin.users.edit', $user->id) --}}" 
                                    class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</a>
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna ini?');">
+                                <form action="{{-- route('admin.users.destroy', $user->id) --}}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna ini?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600">
@@ -66,7 +66,7 @@
 
     {{-- Pagination --}}
     <div class="mt-6">
-        {{ $users->links() }}
+        {{-- $users->links() --}}
     </div>
 </div>
 @endsection

@@ -4,7 +4,7 @@
 <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold text-green-700 mb-6">Edit Event</h1>
 
-    <form action="{{ route('admin.events.update', $event->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <form action="{{ route('admin.event-update', $id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PUT')
 
@@ -62,13 +62,17 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <label for="start_date" class="block font-semibold text-gray-700 mb-2">Tanggal Mulai</label>
-                <input type="date" id="start_date" name="start_date" value="{{ old('start_date', $event->start_date->format('Y-m-d')) }}"
-                       class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none" required>
+                <input type="date" id="start_date" name="start_date" 
+                       value="{{ old('start_date', $event->start_date ? $event->start_date->format('Y-m-d') : '') }}"
+                       class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none" 
+                       required>
             </div>
             <div>
                 <label for="end_date" class="block font-semibold text-gray-700 mb-2">Tanggal Selesai</label>
-                <input type="date" id="end_date" name="end_date" value="{{ old('end_date', $event->end_date->format('Y-m-d')) }}"
-                       class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none" required>
+                <input type="date" id="end_date" name="end_date" 
+                       value="{{ old('end_date', $event->end_date ? $event->end_date->format('Y-m-d') : '') }}"
+                       class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none" 
+                       required>
             </div>
         </div>
 
@@ -85,7 +89,7 @@
 
         {{-- Tombol --}}
         <div class="flex justify-end gap-4">
-            <a href="{{ route('admin.events.index') }}" 
+            <a href="{{route('admin.event-management', $id) }}" 
                class="px-4 py-2 border border-gray-400 text-gray-600 rounded hover:bg-gray-100">Batal</a>
             <button type="submit" 
                     class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Simpan Perubahan</button>

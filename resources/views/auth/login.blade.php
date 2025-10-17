@@ -8,7 +8,20 @@
 </head>
 <body class="bg-gray-100">
 
-    {{-- Navbar --}}
+@if(session('success'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session(`success`) }}',
+            confirmButtonColor: '#16a34a', // hijau Tailwind
+        });
+    });
+</script>
+@endif
+
+{{-- Navbar --}}
     <nav class="bg-green-500 text-white shadow-md">
     <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
         <!-- Logo -->
