@@ -53,4 +53,9 @@ class Event extends Model
     {
         return $this->belongsTo(Categories::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

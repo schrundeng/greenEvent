@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MagicLinkMail;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -18,6 +20,23 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
+
+
+    public function sendMagicLink(Request $request)
+{
+    $user = User::where('email', $request->email)->firstOrFail();
+
+    $token = encrypt($user->id);
+    $magicLink = URL::temporarySignedRoute(
+        'magic.verify',
+        now()->addMinutes(15),
+        ['token' => $token]
+    );
+
+    Mail::to($user->email)->send(new MagicLinkMail($user, $magicLink));
+
+    return back()->with('success', 'Link login sudah dikirim ke email Anda.');
+}
 
     /**
      * Handle an incoming authentication request (support username or email).

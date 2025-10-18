@@ -11,7 +11,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
     {{-- Admin Navbar --}}
-<nav class="bg-[#00C853] text-white shadow-md">
+<nav class="sticky bg-[#00C853] text-white shadow-md">
     <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         <!-- Logo -->
                 <a href="/" class="flex items-center text-white font-bold text-lg">
@@ -47,35 +47,82 @@
     <main class="flex-1 container mx-auto px-4 py-6">
         @yield('content')
     </main>
-<footer class="bg-gray-100 border-t mt-16 py-10">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 text-sm text-gray-700">
-
-            <div>
-                <h4 class="font-semibold mb-3">Tentang Kami</h4>
-                <p class="text-gray-600 text-sm">
-                    Green Event adalah platform untuk menghubungkan warga Malang dengan kegiatan lingkungan yang inspiratif dan berdampak nyata.
-                </p>
-            </div>
-
-            <div>
-                <h4 class="font-semibold mb-3">Our Team</h4>
-                <ul class="space-y-2">
-                    <li class="hover:text-green-600">Naufal Rakha Putra</li>
-                    <li class="hover:text-green-600">Muhammad Naufal Ramadhan</li>
-                    <li class="hover:text-green-600">Ghaura Furqon Nugraha</li>
-                </ul>
-            </div>
-
-            <div class="flex items-center gap-4 justify-center md:justify-start">
-                <a href="#" title="Instagram"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="w-6 h-6" alt="instagram"></a>
-                <a href="#" title="Twitter"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" class="w-6 h-6" alt="twitter"></a>
-                <a href="#" title="Facebook"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="w-6 h-6" alt="facebook"></a>
-            </div>
-
+{{-- Footer --}}
+<footer class="bg-gradient-to-b from-green-50 to-green-100 border-t border-green-200 mt-16 py-12">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-sm text-gray-700">
+        
+        {{-- Tentang --}}
+        <div>
+            <h4 class="font-semibold mb-4 flex items-center gap-2 text-green-700">
+                <i class="fa-solid fa-leaf text-green-600"></i> Tentang Kami
+            </h4>
+            <p class="text-gray-600 leading-relaxed">
+                <span class="font-semibold text-green-700">Green Event</span> adalah platform yang menghubungkan warga Malang
+                dengan kegiatan lingkungan yang inspiratif dan berdampak nyata bagi alam sekitar.
+            </p>
         </div>
-        <p class="text-center text-xs text-gray-500 mt-8">
-            © {{ date('Y') }} Green Event Malang. Semua hak cipta dilindungi.
+
+        {{-- Tim --}}
+        <div>
+            <h4 class="font-semibold mb-4 flex items-center gap-2 text-green-700">
+                <i class="fa-solid fa-users text-green-600"></i> Tim Kami
+            </h4>
+            <ul class="space-y-2">
+                <li class="hover:text-green-600 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user text-green-500"></i> Naufal Rakha Putra
+                </li>
+                <li class="hover:text-green-600 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user text-green-500"></i> Muhammad Naufal Ramadhan
+                </li>
+                <li class="hover:text-green-600 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user text-green-500"></i> Ghaura Furqon Nugraha
+                </li>
+            </ul>
+        </div>
+
+        {{-- Sosial Media --}}
+        <div>
+            <h4 class="font-semibold mb-4 flex items-center gap-2 text-green-700">
+                <i class="fa-solid fa-share-nodes text-green-600"></i> Ikuti Kami
+            </h4>
+            <div class="flex items-center gap-5">
+                <a href="#" class="hover:text-pink-600 text-gray-700 text-2xl transition" title="Github">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="#" class="hover:text-sky-500 text-gray-700 text-2xl transition" title="Github">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="#" class="hover:text-blue-600 text-gray-700 text-2xl transition" title="Github">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </div>
+
+        {{-- Kontak --}}
+        <div>
+            <h4 class="font-semibold mb-4 flex items-center gap-2 text-green-700">
+                <i class="fa-solid fa-envelope text-green-600"></i> Hubungi Kami
+            </h4>
+            <ul class="space-y-2">
+                <li class="flex items-center gap-2 text-gray-600">
+                    <i class="fa-solid fa-location-dot text-green-500"></i> Malang, Indonesia
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <i class="fa-solid fa-envelope text-green-500"></i> greeneventplatform@gmail.com
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <i class="fa-solid fa-phone text-green-500"></i> +62 812 3456 7890
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-10 border-t border-green-200 pt-6 text-center">
+        <p class="text-xs text-gray-500">
+            © {{ date('Y') }} <span class="font-semibold text-green-700">Green Event Malang</span>. Semua hak cipta dilindungi.
         </p>
-    </footer>
+    </div>
+</footer>
+
 </body>
 </html>

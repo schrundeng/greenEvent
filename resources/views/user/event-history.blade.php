@@ -1,30 +1,70 @@
 @extends('user.layout')
 
 @section('content')
+{{-- Tambahkan ini di layout utama (user.layout) jika belum ada --}}
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> --}}
+
 <div class="max-w-6xl mx-auto py-8">
-    <h1 class="text-2xl font-bold text-green-700 mb-6">Riwayat Event Saya</h1>
+    <h1 class="text-3xl font-bold text-green-700 mb-8 border-b-2 border-green-200 pb-2 flex items-center gap-2">
+        <i class="fa-solid fa-calendar-check text-green-600"></i>
+        Riwayat Event Saya
+    </h1>
 
     @if($registrations->isEmpty())
-        <div class="bg-white p-6 rounded-lg shadow-md text-center text-gray-600">
-            Kamu belum mendaftar ke event manapun.
-        </div>
+    <div class="bg-white p-8 rounded-lg shadow-md text-center text-gray-600">
+        <i class="fa-solid fa-circle-info text-4xl text-gray-400 mb-3"></i>
+        <p class="text-lg">Kamu belum mendaftar ke event manapun.</p>
+    </div>
     @else
-        <div class="space-y-4">
-            @foreach($registrations as $reg)
-                <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition p-4 flex justify-between items-center">
-                    <div>
-                        <h3 class="font-semibold text-lg">{{ $reg->event->title }}</h3>
-                        <p class="text-sm text-gray-600">📅 {{ $reg->event->start_date->format('d/m/Y') }} - {{ $reg->event->end_date->format('d/m/Y') }}</p>
-                        <p class="text-sm text-gray-600">📍 {{ $reg->event->location }}</p>
-                        <p class="text-sm text-gray-500">Status Pendaftaran: <span class="font-medium">{{ ucfirst($reg->status) }}</span></p>
-                    </div>
-                    <a href="{{ route('events.index', $reg->event->slug) }}" 
-                       class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                        Detail
-                    </a>
+    <div class="space-y-5">
+        @foreach($registrations as $reg)
+        @php
+        $status = strtolower($reg->status);
+        $statusColor = match($status) {
+        'pending' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
+        'accepted' => 'bg-green-100 text-green-800 border-green-300',
+        'rejected' => 'bg-red-100 text-red-800 border-red-300',
+        default => 'bg-gray-100 text-gray-700 border-gray-300'
+        };
+
+        $statusIcon = match($status) {
+        'pending' => 'fa-clock',
+        'accepted' => 'fa-circle-check',
+        'rejected' => 'fa-circle-xmark',
+        default => 'fa-question-circle'
+        };
+        @endphp
+
+        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-5 flex flex-col md:flex-row justify-between items-start md:items-center border border-gray-100">
+            <div class="flex-1">
+                <h3 class="font-semibold text-xl text-gray-800">{{ $reg->event->title }}</h3>
+                <p class="text-sm text-gray-600 mt-1">
+                    <i class="fa-solid fa-calendar-days text-green-600"></i>
+                    {{ $reg->event->start_date->format('d/m/Y') }} - {{ $reg->event->end_date->format('d/m/Y') }}
+                </p>
+                <p class="text-sm text-gray-600">
+                    <i class="fa-solid fa-location-dot text-green-600"></i>
+                    {{ $reg->event->location }}
+                </p>
+
+                <div class="mt-2">
+                    <span class="text-sm text-gray-500">Status Pendaftaran:</span>
+                    <span class="ml-2 max-w-20 px-1 py-1 text-sm font-semibold rounded-full border items-center gap-2 {{ $statusColor }}">
+                        <i class="fa-solid {{ $statusIcon }}"></i>
+                        {{ ucfirst($reg->status) }}
+                    </span>
                 </div>
-            @endforeach
+            </div>
+
+            <div class="mt-4 md:mt-0">
+                <a href="{{ route('events.detail.show', $reg->event->slug) }}"
+                    class="inline-block px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 transition">
+                    <i class="fa-solid fa-eye"></i> Lihat Detail
+                </a>
+            </div>
         </div>
+        @endforeach
+    </div>
     @endif
 </div>
 @endsection

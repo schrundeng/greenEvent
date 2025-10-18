@@ -13,36 +13,41 @@
 <body class="antialiased">
 
     <!-- HEADER -->
-    <header class="bg-green-500 text-white shadow-md">
-        <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-            <div class="sticky flex items-center gap-2">
-                <div class="w-8 h-8 bg-white text-green-600 flex bg-[#00C853] items-center justify-center font-bold rounded" aria-hidden="true">
-                    GE
-                </div>
-                <span class="font-semibold">Green Event</span>
+    <header class="sticky top-0 z-50 bg-green-500 text-white shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+        <!-- Logo -->
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-white text-green-600 flex items-center justify-center font-bold rounded" aria-hidden="true">
+                GE
             </div>
-            <nav class="flex gap-6">
-                <a href="#" class="hover:text-gray-200">Beranda</a>
-                <a href="/events" class="hover:text-gray-200">Event</a>
-                <a href="#" class="hover:text-gray-200">Tentang</a>
-                <a href="#" class="hover:text-gray-200">Kontak</a>
-            </nav>
-
-            <div class="flex gap-3">
-                @auth
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700">
-                            Keluar
-                        </button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100">Masuk</a>
-                    <a href="{{ route('register') }}" class="px-3 py-1 rounded bg-green-700 text-white font-medium hover:bg-green-800">Daftar</a>
-                @endauth
-            </div>
+            <span class="font-semibold">Green Event</span>
         </div>
-    </header>
+
+        <!-- Nav -->
+        <nav class="flex gap-6">
+            <a href="#" class="font-medium hover:text-gray-100 transition">Beranda</a>
+            <a href="/events" class="font-medium hover:text-gray-100 transition">Event</a>
+            <a href="/about" class="font-medium hover:text-gray-100 transition">Tentang</a>
+        </nav>
+
+        <!-- Auth -->
+        <div class="flex gap-3">
+            @auth
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                            class="px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700">
+                        Keluar
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100">Masuk</a>
+                <a href="{{ route('register') }}" class="px-3 py-1 rounded bg-green-700 text-white font-medium hover:bg-green-800">Daftar</a>
+            @endauth
+        </div>
+    </div>
+</header>
+
 
     <!-- HERO -->
     <section class="bg-gradient-to-b from-green-300 to-white text-center py-20">

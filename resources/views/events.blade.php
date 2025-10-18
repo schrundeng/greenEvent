@@ -20,7 +20,7 @@
             @if($event->poster)
             <img src="{{ asset('storage/' . $event->poster) }}"
                 alt="{{ $event->title }}"
-                class="w-full h-48 object-cover">
+                class="w-full h-48 object-cover lazy">
             @else
             <div class="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
                 Tidak ada poster

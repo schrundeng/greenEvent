@@ -12,7 +12,8 @@
             You are already registered for this event.
         </div>
     @else
-        <form action="{{ route('user.event-register.store', $event->slug ?? $event->id) }}" 
+        <form id="registerForm"
+              action="{{ route('user.event-register.store', $event->slug ?? $event->id) }}" 
               method="POST" 
               class="bg-white p-6 rounded-lg shadow-md space-y-4">
             @csrf
@@ -27,9 +28,9 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" name="email" value="{{ auth()->user()->email }}" 
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500" required>
+                <label for="email" class="block text-gray-700 font-semibold mb-1 ">Email</label>
+                <input type="email" id="email" name="email" value="{{ auth()->user()->email}}"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-100 text-gray-500 cursor-not-allowed" readonly>
             </div>
 
             <div>
@@ -45,4 +46,26 @@
         </form>
     @endif
 </div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // jangan langsung submit
+
+    Swal.fire({
+        title: 'Yakin dengan data yang kamu isi?',
+        text: "Pastikan data sudah benar sebelum mendaftar.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#16a34a',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, daftar!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.submit(); // lanjut submit form
+        }
+    });
+});
+</script>
+
 @endsection

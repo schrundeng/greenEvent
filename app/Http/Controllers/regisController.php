@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
+use App\Models\Users;
 use App\Models\Regis;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -9,16 +11,44 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisController extends Controller
 {
-    public function index()
+    public function index(Event $event)
     {
         try {
-            $registrations = Regis::with(['user', 'event'])->latest('registered_at')->get();
-            $events = Event::where('status', '!=', 'ended')->get();
-            return view('admin.registrations.index', compact('registrations', 'events'));
+            // Load registrations with users
+            $registrations = Regis::with('user')
+                ->where('event_id', $event->id)
+                ->latest('registered_at')
+                ->get();
+
+            // foreach ($registrations as $r) {
+            //     dd($r->user);
+            // }
+
+            // Pass to view, no need for separate $category
+            return view('admin.event-show-registers', compact('event', 'registrations'));
         } catch (\Exception $e) {
-            return back()->with('error', 'Unable to load registrations.');
+            // Dump exception for debugging
+            dd($e);
         }
     }
+
+    public function changeStatus(Request $request, Regis $registration)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,approved,rejected'
+        ]);
+
+        try {
+            $registration->update([
+                'status' => $request->status
+            ]);
+
+            return back()->with('success', 'Status updated successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to update status.');
+        }
+    }
+
 
     public function userHistory()
     {
@@ -123,14 +153,13 @@ class RegisController extends Controller
         }
     }
 
-    public function destroy(Regis $registration)
+    public function adminDestroy(Regis $registration)
     {
         try {
             $registration->delete();
-            return redirect()->route('registrations.index')
-                ->with('success', 'Registration deleted successfully.');
+            return back()->with('success', 'Registration deleted successfully.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Delete failed.');
+            return back()->with('error', 'Failed to delete registration.');
         }
     }
 }

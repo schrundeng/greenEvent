@@ -56,7 +56,7 @@
         <div class="bg-green-700 text-white p-8 rounded-xl shadow-md text-center">
             <h2 class="text-2xl font-bold mb-2">Bersama, Kita Hijaukan Dunia 🌿</h2>
             <p class="text-green-100 mb-10">Mulai langkah kecilmu hari ini. Temukan acara lingkungan, ikuti, dan sebarkan kebaikan.</p>
-            <a href="{{ route('user.dashboard') }}" class="bg-white text-green-700 font-semibold px-6 py-3 rounded-lg shadow hover:bg-green-100 transition">
+            <a href="/" class="bg-white text-green-700 font-semibold px-6 py-3 rounded-lg shadow hover:bg-green-100 transition">
                 Jelajahi Event Sekarang
             </a>
         </div>

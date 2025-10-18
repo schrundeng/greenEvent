@@ -6,9 +6,9 @@
 
     <div class="bg-white shadow-md rounded-lg p-6">
         @if(session('success'))
-            <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
-                {{ session('success') }}
-            </div>
+        <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
         @endif
 
         <form action="{{route('user.user-update')}}" method="POST">
@@ -18,13 +18,13 @@
             <div class="mb-4">
                 <label for="username" class="block text-gray-700 font-semibold mb-1">Username</label>
                 <input type="text" id="username" name="username" value="{{-- auth()->user()->username --}}"
-                       class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
             </div>
 
             <div class="mb-4">
-                <label for="email" class="block text-gray-700 font-semibold mb-1">Email</label>
+                <label for="email" class="block text-gray-700 font-semibold mb-1 ">Email</label>
                 <input type="email" id="email" name="email" value="{{ auth()->user()->email}}"
-                       class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" readonly>
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-100 text-gray-500 cursor-not-allowed" readonly>
             </div>
 
             <div class="mb-4">
@@ -32,15 +32,15 @@
                     Password Baru <span class="text-gray-400 text-sm">(kosongkan jika tidak ingin ganti)</span>
                 </label>
                 <input type="password" id="password" name="password"
-                       class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
             </div>
 
             <div class="mb-4">
-            <label for="current_password" class="block text-gray-700 font-semibold mb-1">
-                Password Lama
-            </label>
-            <input type="password" id="current_password" name="current_password"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500">
+                <label for="current_password" class="block text-gray-700 font-semibold mb-1">
+                    Password Lama
+                </label>
+                <input type="password" id="current_password" name="current_password"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500">
             </div>
 
 

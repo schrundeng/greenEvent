@@ -68,7 +68,7 @@
             </a>
 
             {{-- Event Berlangsung --}}
-            <a href="{{--route('admin.events.index', ['status' => 'ongoing'--}}"
+            <a href="manage/events?search=&category=&status=ongoing"
                 class="flex items-center gap-3 bg-yellow-50 border border-yellow-200 hover:bg-yellow-100 transition rounded-lg p-3">
                 <div class="bg-yellow-500 text-white p-3 rounded">
                     <i class="fa-solid fa-calendar"></i>

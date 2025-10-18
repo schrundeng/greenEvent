@@ -20,12 +20,12 @@
         </a>
 
         <!-- Nav Links -->
-        <div class="flex gap-6">
-            <a href="/" class="hover:text-gray-200">Beranda</a>
-            <a href="#" class="hover:text-gray-200">Event</a>
-            <a href="#" class="hover:text-gray-200">Tentang</a>
-            <a href="#" class="hover:text-gray-200">Kontak</a>
-        </div>
+       <nav class="flex gap-6">
+                <a href="#" class="font-medium hover:text-gray-100 transition">Beranda</a>
+                <a href="/events" class="font-medium hover:text-gray-100 transition">Event</a>
+                <a href="#" class="font-medium hover:text-gray-100 transition">Tentang</a>
+                <a href="#" class="font-medium hover:text-gray-100 transition">Kontak</a>
+            </nav>
 
         <!-- Auth Buttons -->
         <div class="flex gap-3">

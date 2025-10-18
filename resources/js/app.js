@@ -7,6 +7,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 AOS.init({
+  offset: 0,  
   delay : 100,
   duration: 800, // kecepatan animasi (ms)
   easing: 'ease-in-out', // transisi halus
