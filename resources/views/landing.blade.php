@@ -7,181 +7,252 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="{{ asset('favicon.ico') }}?">
-
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 <body class="antialiased">
 
     <!-- HEADER -->
     <header class="sticky top-0 z-50 bg-green-500 text-white shadow-md">
-    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-        <!-- Logo -->
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-white text-green-600 flex items-center justify-center font-bold rounded" aria-hidden="true">
-                GE
-            </div>
-            <span class="font-semibold">Green Event</span>
-        </div>
-
-        <!-- Nav -->
-        <nav class="flex gap-6">
-            <a href="#" class="font-medium hover:text-gray-100 transition">Beranda</a>
-            <a href="/events" class="font-medium hover:text-gray-100 transition">Event</a>
-            <a href="/about" class="font-medium hover:text-gray-100 transition">Tentang</a>
-        </nav>
-
-        <!-- Auth -->
-        <div class="flex gap-3">
-            @auth
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                            class="px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700">
-                        Keluar
-                    </button>
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100">Masuk</a>
-                <a href="{{ route('register') }}" class="px-3 py-1 rounded bg-green-700 text-white font-medium hover:bg-green-800">Daftar</a>
-            @endauth
-        </div>
+  <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 flex-nowrap overflow-x-auto">
+    
+    <!-- Logo -->
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <div class="w-8 h-8 bg-white text-green-600 flex items-center justify-center font-bold rounded" aria-hidden="true">
+        GE
+      </div>
+      <span class="font-semibold whitespace-nowrap">Green Event</span>
     </div>
+
+    <!-- Nav (desktop) -->
+    <nav class="hidden md:flex gap-6 flex-shrink-0">
+      <a href="#" class="font-medium hover:text-gray-100 transition">Beranda</a>
+      <a href="/events" class="font-medium hover:text-gray-100 transition">Event</a>
+      <a href="/about" class="font-medium hover:text-gray-100 transition">Tentang</a>
+    </nav>
+
+    <!-- Tombol menu (mobile) -->
+    <button id="menu-toggle" class="md:hidden text-white text-xl">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Auth -->
+    <div class="hidden md:flex gap-3 flex-shrink-0">
+      @auth
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="submit"
+            class="px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700">
+            Keluar
+          </button>
+        </form>
+      @else
+        <a href="{{ route('login') }}" class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100">Masuk</a>
+        <a href="{{ route('register') }}" class="px-3 py-1 rounded bg-green-700 text-white font-medium hover:bg-green-800">Daftar</a>
+      @endauth
+    </div>
+  </div>
+
+  <!-- Menu mobile dropdown -->
+  <div id="mobile-menu" class="hidden md:hidden flex flex-col bg-green-600 text-white px-6 pb-4 space-y-2">
+    <a href="#" class="hover:text-gray-200">Beranda</a>
+    <a href="/events" class="hover:text-gray-200">Event</a>
+    <a href="/about" class="hover:text-gray-200">Tentang</a>
+    <div class="border-t border-green-400 pt-2">
+      @auth
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="submit" class="w-full text-left py-2 hover:text-gray-200">Keluar</button>
+        </form>
+      @else
+        <a href="{{ route('login') }}" class="block py-2 hover:text-gray-200">Masuk</a>
+        <a href="{{ route('register') }}" class="block py-2 hover:text-gray-200">Daftar</a>
+      @endauth
+    </div>
+  </div>
 </header>
-
-
-    <!-- HERO -->
-    <section class="bg-gradient-to-b from-green-300 to-white text-center py-20">
-    <h1 data-aos="fade-up" data-aos-delay="400" class="text-4xl font-extrabold text-gray-800">
-        Bersama Menanam Perubahan di Kota Malang
-    </h1>
-    <p data-aos="fade-up" data-aos-delay="400" class="mt-4 text-lg text-gray-700">
-        Temukan, ikuti, dan dukung event ramah lingkungan — dari aksi bersih sungai hingga workshop daur ulang kreatif.
-    </p>
-    <div data-aos="fade-up" data-aos-delay="400" class="mt-6 flex justify-center gap-4">
-        <a href="{{ route('register') }}" class="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700">
-            🌱 Daftar Sekarang
-        </a>
-        <a href="{{ route('login') }}" class="px-6 py-3 border border-green-600 text-green-700 rounded-lg hover:bg-green-50">
-            Masuk untuk Bergabung
-        </a>
-    </div>
+<!-- HERO -->
+<section class="bg-gradient-to-b from-green-300 to-white text-center py-20 px-6 sm:px-10 md:px-16">
+  <h1 data-aos="fade-up" data-aos-delay="400"
+      class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-800 leading-snug">
+    Bersama Menanam Perubahan di Kota Malang
+  </h1>
+  <p data-aos="fade-up" data-aos-delay="500"
+     class="mt-4 text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+    Temukan, ikuti, dan dukung event ramah lingkungan — dari aksi bersih sungai hingga workshop daur ulang kreatif.
+  </p>
+  <div data-aos="fade-up" data-aos-delay="600"
+       class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+    <a href="{{ route('register') }}"
+       class="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition w-full sm:w-auto">
+      🌱 Daftar Sekarang
+    </a>
+    <a href="{{ route('login') }}"
+       class="px-6 py-3 border border-green-600 text-green-700 rounded-lg hover:bg-green-50 transition w-full sm:w-auto">
+      Masuk untuk Bergabung
+    </a>
+  </div>
 </section>
 
-
-    <!-- EVENT PREVIEW -->
-    <section class="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-    <div data-aos="zoom-in" data-aos-delay="100" class="bg-gray-100 h-48 flex flex-col items-center justify-center rounded-lg text-center shadow-sm hover:shadow-md transition">
-        <span class="text-gray-700 font-semibold mb-2">Aksi Nyata di Lapangan</span>
-        <span class="text-gray-400 text-sm">Bersama komunitas membersihkan Sungai Brantas</span>
-    </div>
-    <div data-aos="zoom-in" data-aos-delay="250" class="bg-gray-100 h-48 flex flex-col items-center justify-center rounded-lg text-center shadow-sm hover:shadow-md transition">
-        <span class="text-gray-700 font-semibold mb-2">Kreativitas Hijau</span>
-        <span class="text-gray-400 text-sm">Workshop daur ulang sampah plastik menjadi karya seni</span>
-    </div>
+<!-- EVENT PREVIEW -->
+<section class="max-w-6xl mx-auto px-6 sm:px-10 md:px-16 py-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+  <div data-aos="zoom-in" data-aos-delay="100"
+       class="bg-gray-100 h-52 sm:h-56 flex flex-col items-center justify-center rounded-lg text-center shadow-sm hover:shadow-md transition">
+    <span class="text-gray-700 font-semibold mb-2 text-lg">Aksi Nyata di Lapangan</span>
+    <span class="text-gray-500 text-sm sm:text-base">Bersama komunitas membersihkan Sungai Brantas</span>
+  </div>
+  <div data-aos="zoom-in" data-aos-delay="250"
+       class="bg-gray-100 h-52 sm:h-56 flex flex-col items-center justify-center rounded-lg text-center shadow-sm hover:shadow-md transition">
+    <span class="text-gray-700 font-semibold mb-2 text-lg">Kreativitas Hijau</span>
+    <span class="text-gray-500 text-sm sm:text-base">Workshop daur ulang sampah plastik menjadi karya seni</span>
+  </div>
 </section>
 
+<!-- WHY GREEN EVENT -->
+<section class="max-w-6xl mx-auto px-6 sm:px-10 md:px-16 py-16">
+  <h2 data-aos="fade-up" class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">
+    Mengapa Harus Green Event?
+  </h2>
+  <p data-aos="fade-up" class="text-gray-600 mb-10 text-center md:text-left max-w-2xl mx-auto md:mx-0">
+    Kami percaya setiap langkah kecil bisa memberi dampak besar bagi bumi — mulai dari lingkungan terdekat kita.
+  </p>
 
-    <!-- WHY GREEN EVENT -->
-    <section class="max-w-6xl mx-auto px-6 py-16">
-        <h2 data-aos="fade-up" class="text-2xl font-bold text-gray-800 mb-6">Mengapa Harus Green Event?</h2>
-        <p data-aos="fade-up" class="text-gray-600 mb-10">
-            Kami percaya setiap langkah kecil bisa memberi dampak besar bagi bumi — mulai dari lingkungan terdekat kita.
-        </p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <!-- Item -->
+    <div data-aos="fade-up" class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full border border-green-500 flex items-center justify-center text-lg">🌳</div>
+      <div>
+        <h3 class="font-semibold text-base sm:text-lg">Event Ramah Alam</h3>
+        <p class="text-sm text-gray-600">Semua kegiatan dirancang untuk minim limbah dan emisi karbon.</p>
+      </div>
+    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div data-aos="fade-up" class="flex items-start gap-3">
-                <div class="w-6 h-6 rounded-full border border-green-500 flex items-center justify-center">
-                    <span class="text-green-600 font-bold text-sm">🌳</span>
-                </div>
-                <div data-aos="fade-in">
-                    <h3 class="font-semibold">Event Ramah Alam</h3>
-                    <p class="text-sm text-gray-600">Semua kegiatan dirancang untuk minim limbah dan emisi karbon.</p>
-                </div>
-            </div>
+    <div data-aos="fade-up" data-aos-delay="100" class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full border border-green-500 flex items-center justify-center text-lg">🤝</div>
+      <div>
+        <h3 class="font-semibold text-base sm:text-lg">Kolaborasi Komunitas</h3>
+        <p class="text-sm text-gray-600">Gabung dengan komunitas hijau dan saling berbagi inspirasi positif.</p>
+      </div>
+    </div>
 
-            <div class="flex items-start gap-3">
-                <div data-aos="fade-up" class="w-6 h-6 rounded-full border border-green-500 flex items-center justify-center">
-                    <span class="text-green-600 font-bold text-sm">🤝</span>
-                </div>
-                <div data-aos="fade-in">
-                    <h3 class="font-semibold">Kolaborasi Komunitas</h3>
-                    <p class="text-sm text-gray-600">Gabung dengan komunitas hijau dan saling berbagi inspirasi positif.</p>
-                </div>
-            </div>
+    <div data-aos="fade-up" data-aos-delay="200" class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full border border-green-500 flex items-center justify-center text-lg">♻️</div>
+      <div>
+        <h3 class="font-semibold text-base sm:text-lg">Edukasi Berkelanjutan</h3>
+        <p class="text-sm text-gray-600">Ikuti pelatihan dan workshop tentang pengelolaan sampah dan energi.</p>
+      </div>
+    </div>
 
-            <div class="flex items-start gap-3">
-                <div data-aos="fade-up" class="w-6 h-6 rounded-full border border-green-500 flex items-center justify-center">
-                    <span class="text-green-600 font-bold text-sm">♻️</span>
-                </div>
-                <div data-aos="fade-in">
-                    <h3 class="font-semibold">Edukasi Berkelanjutan</h3>
-                    <p class="text-sm text-gray-600">Ikuti pelatihan dan workshop tentang pengelolaan sampah dan energi.</p>
-                </div>
-            </div>
+    <div data-aos="fade-up" data-aos-delay="300" class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full border border-green-500 flex items-center justify-center text-lg">🌞</div>
+      <div>
+        <h3 class="font-semibold text-base sm:text-lg">Lokasi Pilihan</h3>
+        <p class="text-sm text-gray-600">Event diadakan di titik-titik Malang yang mendukung konsep hijau.</p>
+      </div>
+    </div>
 
-            <div class="flex items-start gap-3">
-                <div data-aos="fade-up" class="w-6 h-6 rounded-full border border-green-500 flex items-center justify-center">
-                    <span class="text-green-600 font-bold text-sm">🌞</span>
-                </div>
-                <div data-aos="fade-in">
-                    <h3 class="font-semibold">Lokasi Pilihan</h3>
-                    <p class="text-sm text-gray-600">Event diadakan di titik-titik Malang yang mendukung konsep hijau.</p>
-                </div>
-            </div>
+    <div data-aos="fade-up" data-aos-delay="400" class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full border border-green-500 flex items-center justify-center text-lg">📅</div>
+      <div>
+        <h3 class="font-semibold text-base sm:text-lg">Jadwal Fleksibel</h3>
+        <p class="text-sm text-gray-600">Pilih event sesuai minat dan waktu yang kamu punya.</p>
+      </div>
+    </div>
 
-            <div class="flex items-start gap-3">
-                <div data-aos="fade-up" class="w-6 h-6 rounded-full border border-green-500 flex items-center justify-center">
-                    <span class="text-green-600 font-bold text-sm">📅</span>
-                </div>
-                <div data-aos="fade-in">
-                    <h3 class="font-semibold">Jadwal Fleksibel</h3>
-                    <p class="text-sm text-gray-600">Pilih event sesuai minat dan waktu yang kamu punya.</p>
-                </div>
-            </div>
+    <div data-aos="fade-up" data-aos-delay="500" class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full border border-green-500 flex items-center justify-center text-lg">🎁</div>
+      <div>
+        <h3 class="font-semibold text-base sm:text-lg">Reward Hijau</h3>
+        <p class="text-sm text-gray-600">Dapatkan apresiasi lingkungan atas kontribusimu.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="flex items-start gap-3">
-                <div data-aos="fade-up" class="w-6 h-6 rounded-full border border-green-500 flex items-center justify-center">
-                    <span class="text-green-600 font-bold text-sm">🎁</span>
-                </div>
-                <div data-aos="fade-in">
-                    <h3 class="font-semibold">Reward Hijau</h3>
-                    <p class="text-sm text-gray-600">Dapatkan apresiasi lingkungan atas kontribusimu.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- FOOTER -->
-    <footer data-aos="fade-in" class="bg-gray-100 border-t mt-16 py-10">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10 text-sm text-gray-700">
-
-            <div data-aos="fade-in">
-                <h4 class="font-semibold mb-3">Tentang Kami</h4>
-                <p class="text-gray-600 text-sm">
-                    Green Event adalah platform untuk menghubungkan warga Malang dengan kegiatan lingkungan yang inspiratif dan berdampak nyata.
-                </p>
-            </div>
-
-            <div data-aos="fade-in">
-                <h4 class="font-semibold mb-3">Our Team</h4>
-                <ul class="space-y-2">
-                    <li class="hover:text-green-600">Naufal Rakha Putra</li>
-                    <li class="hover:text-green-600">Muhammad Naufal Ramadhan</li>
-                    <li class="hover:text-green-600">Ghaura Furqon Nugraha</li>
-                </ul>
-            </div>
-
-            <div class="flex items-center gap-4 justify-center md:justify-start">
-                <a href="#" title="Instagram"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="w-6 h-6" alt="instagram"></a>
-                <a href="#" title="Twitter"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" class="w-6 h-6" alt="twitter"></a>
-                <a href="#" title="Facebook"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="w-6 h-6" alt="facebook"></a>
-            </div>
-
+    <footer class="bg-gradient-to-b from-green-50 to-green-100 border-t border-green-200 mt-16 py-12">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-sm text-gray-700">
+        
+        {{-- Tentang --}}
+        <div>
+            <h4 class="font-semibold mb-4 flex items-center gap-2 text-green-700">
+                <i class="fa-solid fa-leaf text-green-600"></i> Tentang Kami
+            </h4>
+            <p class="text-gray-600 leading-relaxed">
+                <span class="font-semibold text-green-700">Green Event</span> adalah platform yang menghubungkan warga Malang
+                dengan kegiatan lingkungan yang inspiratif dan berdampak nyata bagi alam sekitar.
+            </p>
         </div>
-        <p class="text-center text-xs text-gray-500 mt-8">
-            © {{ date('Y') }} Green Event Malang. Semua hak cipta dilindungi.
+
+        {{-- Tim --}}
+        <div>
+            <h4 class="font-semibold mb-4 flex items-center gap-2 text-green-700">
+                <i class="fa-solid fa-users text-green-600"></i> Tim Kami
+            </h4>
+            <ul class="space-y-2">
+                <li class="hover:text-green-600 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user text-green-500"></i> Naufal Rakha Putra
+                </li>
+                <li class="hover:text-green-600 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user text-green-500"></i> Muhammad Naufal Ramadhan
+                </li>
+                <li class="hover:text-green-600 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user text-green-500"></i> Ghaura Furqon Nugraha
+                </li>
+            </ul>
+        </div>
+
+        {{-- Sosial Media --}}
+        <div>
+            <h4 class="font-semibold mb-4 flex items-center gap-2 text-green-700">
+                <i class="fa-solid fa-share-nodes text-green-600"></i> Ikuti Kami
+            </h4>
+            <div class="flex items-center gap-5">
+                <a href="#" class="hover:text-pink-600 text-gray-700 text-2xl transition" title="Github">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="#" class="hover:text-sky-500 text-gray-700 text-2xl transition" title="Github">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="#" class="hover:text-blue-600 text-gray-700 text-2xl transition" title="Github">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </div>
+
+        {{-- Kontak --}}
+        <div>
+            <h4 class="font-semibold mb-4 flex items-center gap-2 text-green-700">
+                <i class="fa-solid fa-envelope text-green-600"></i> Hubungi Kami
+            </h4>
+            <ul class="space-y-2">
+                <li class="flex items-center gap-2 text-gray-600">
+                    <i class="fa-solid fa-location-dot text-green-500"></i> Malang, Indonesia
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <i class="fa-solid fa-envelope text-green-500"></i> greeneventplatform@gmail.com
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <i class="fa-solid fa-phone text-green-500"></i> +62 812 3456 7890
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-10 border-t border-green-200 pt-6 text-center">
+        <p class="text-xs text-gray-500">
+            © {{ date('Y') }} <span class="font-semibold text-green-700">Green Event Malang</span>. Semua hak cipta dilindungi.
         </p>
-    </footer>
+    </div>
+</footer>
+<script>
+document.getElementById('menu-toggle').addEventListener('click', function () {
+  document.getElementById('mobile-menu').classList.toggle('hidden');
+});
+</script>
+
 
 </body>
 </html>
