@@ -14,7 +14,7 @@
         <div class="md:w-2/5 w-full rounded-lg shadow-md overflow-hidden" data-aos="zoom-in" data-aos-delay="200">
             <img src="{{ asset('storage/' . $event->poster) }}"
                  alt="{{ $event->title }}"
-                 class="w-full aspect-[4/3] object-cover rounded-lg">
+                 class="w-full object-contain rounded-lg">
         </div>
 
         {{-- Info Event --}}

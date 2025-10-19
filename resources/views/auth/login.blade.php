@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Green Event</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-100">
 
+    @extends('layout')
+
+@section('content')
 @if(session('success'))
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -20,37 +14,39 @@
     });
 </script>
 @endif
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const btn = document.getElementById('menu-toggle');
+      const menuMobile = document.getElementById('menu-mobile');
+      btn.addEventListener('click', () => {
+        menuMobile.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', menuMobile.classList.contains('hidden') ? 'false' : 'true');
+      });
 
-{{-- Navbar --}}
-    <nav class="bg-green-500 text-white shadow-md">
-    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-        <!-- Logo -->
-        <a href="/" class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-white text-green-600 flex items-center justify-center font-bold rounded">
-                GE
-            </div>
-            <span class="font-semibold">Green Event</span>
-        </a>
+      const handleLogout = (btnId, formId) => {
+        const btn = document.getElementById(btnId);
+        const form = document.getElementById(formId);
+        if (!btn || !form) return;
+        btn.addEventListener('click', () => {
+          Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda akan keluar dari akun ini.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#16a34a',
+            confirmButtonText: 'Ya, Logout',
+            cancelButtonText: 'Batal'
+          }).then(result => {
+            if (result.isConfirmed) form.submit();
+          });
+        });
+      };
 
-        <!-- Nav Links -->
-       <nav class="flex gap-6">
-                <a href="/" class="font-medium hover:text-gray-100 transition">Beranda</a>
-                <a href="/events" class="font-medium hover:text-gray-100 transition">Event</a>
-                <a href="/about" class="font-medium hover:text-gray-100 transition">Tentang</a>
-            </nav>
-
-        <!-- Auth Buttons -->
-        <div class="flex gap-3">
-            <a href="{{ route('login') }}" class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100">
-                Masuk
-            </a>
-            <a href="{{ route('register') }}" class="px-3 py-1 rounded bg-green-700 text-white font-medium hover:bg-green-800">
-                Daftar
-            </a>
-        </div>
-    </div>
-</nav>
-
+      handleLogout('logout-btn-desktop', 'logout-form-desktop');
+      handleLogout('logout-btn-mobile', 'logout-form-mobile');
+    });
+    </script>
 
     {{-- Login Form --}}
     <div class="flex justify-center items-center min-h-[90vh]">
@@ -88,8 +84,8 @@
 
                 <div class="flex items-center justify-between mb-4">
 
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm text-[#00C853] font-semibold hover:underline">
+                    @if (Route::has('magic.form'))
+                        <a href="{{ route('magic.form') }}" class="text-sm text-[#00C853] font-semibold hover:underline">
                             Forgot password?
                         </a>
                     @endif
@@ -106,10 +102,4 @@
             </p>
         </div>
     </div>
-
-    {{-- Footer --}}
-    <footer class="bg-green-700 text-white text-center py-3 mt-auto">
-        <p>&copy; {{ date('Y') }} GreenEvent. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+@endsection

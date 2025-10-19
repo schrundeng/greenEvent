@@ -28,7 +28,12 @@ class dashboardController extends Controller
     // Dashboard untuk user biasa
     public function index(Request $request)
     {
-        // Cegah admin mengakses halaman user
+
+        if (!Auth::check()) {
+            return redirect()->route('landing')
+                ->with('error', 'Silakan login terlebih dahulu untuk mengakses halaman ini.');
+        }
+
         if (Auth::user()->role !== 'user') {
             return redirect()->route('admin.dashboard')
                 ->with('error', 'Akses ditolak. Halaman ini khusus untuk user.');
@@ -53,7 +58,10 @@ class dashboardController extends Controller
     // Dashboard untuk admin
     public function adminIndex()
     {
-        // Cegah user biasa mengakses halaman admin
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
         if (Auth::user()->role !== 'admin') {
             return redirect()->route('user.dashboard')
                 ->with('error', 'Akses ditolak. Halaman ini khusus untuk admin.');
@@ -63,7 +71,7 @@ class dashboardController extends Controller
         $events = Event::with(['category'])->latest()->get();
 
         $totalEvents = Event::count();
-        $latestUsers = User::latest()->take(3)->get();
+        $latestUsers = User::latest()->take(4)->get();
         $totalUsers = User::where('role', 'user')->count();
         $totalRegistrations = DB::table('regis')->count();
 

@@ -7,34 +7,35 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-    {{-- Admin Navbar --}}
-<nav class="sticky bg-[#00C853] text-white shadow-md">
+
+{{-- Admin Navbar --}}
+<nav class="sticky top-0 bg-[#00C853] text-white shadow-md z-50">
     <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         <!-- Logo -->
-                <a href="/" class="flex items-center text-white font-bold text-lg">
-    <div class="bg-white text-[#00C853] font-bold rounded px-2 py-1 mr-2 select-none" aria-hidden="true">
-        GE
-    </div>
-    Green Event
-</a>
-        <!-- Navigation -->
-        <div class="flex items-center space-x-6">
-            <p class="font-medium hover:text-gray-100 transition">Hi, admin!</p>
-            <a href="{{ route('admin.dashboard') }}" 
-               class="font-medium hover:text-gray-100 transition">Dashboard</a>
+        <a href="/" class="flex items-center text-white font-bold text-lg">
+            <div class="bg-white text-[#00C853] font-bold rounded px-2 py-1 mr-2 select-none" aria-hidden="true">
+                GE
+            </div>
+            Green Event
+        </a>
 
-            {{-- Uncomment jika nanti ada halaman tambahan --}}
-            {{-- <a href="{{ route('admin.events') }}" 
-                class="font-medium hover:text-gray-100 transition">Manage Events</a> --}}
-            
+        <!-- Hamburger (Mobile) -->
+        <button id="menu-toggle" class="md:hidden text-white text-2xl focus:outline-none">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Navigation -->
+        <div id="menu" class="hidden md:flex flex-col md:flex-row items-start md:items-center md:space-x-6 space-y-4 md:space-y-0 absolute md:static top-16 left-0 md:top-auto md:left-auto bg-[#00C853] md:bg-transparent w-full md:w-auto px-6 md:px-0 py-4 md:py-0 shadow-md md:shadow-none transition-all">
+            <p class="font-medium hover:text-gray-100 transition">Hi, admin!</p>
+            <a href="{{ route('admin.dashboard') }}" class="font-medium hover:text-gray-100 transition">Dashboard</a>
+
             {{-- Logout --}}
             <form method="POST" action="{{ route('logout') }}" class="inline">
                 @csrf
-                <button type="submit" 
-                        class="font-medium hover:text-gray-100 transition">
+                <button type="submit" class="font-medium hover:text-gray-100 transition">
                     Logout
                 </button>
             </form>
@@ -42,11 +43,11 @@
     </div>
 </nav>
 
+{{-- Main content --}}
+<main class="flex-1 container mx-auto px-4 py-6 w-full">
+    @yield('content')
+</main>
 
-    {{-- Main content --}}
-    <main class="flex-1 container mx-auto px-4 py-6">
-        @yield('content')
-    </main>
 {{-- Footer --}}
 <footer class="bg-gradient-to-b from-green-50 to-green-100 border-t border-green-200 mt-16 py-12">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-sm text-gray-700">
@@ -86,13 +87,13 @@
                 <i class="fa-solid fa-share-nodes text-green-600"></i> Ikuti Kami
             </h4>
             <div class="flex items-center gap-5">
-                <a href="#" class="hover:text-pink-600 text-gray-700 text-2xl transition" title="Github">
+                <a href="github.com/schrundeng" class="hover:text-pink-600 text-gray-700 text-2xl transition" title="Github">
                     <i class="fa-brands fa-github"></i>
                 </a>
-                <a href="#" class="hover:text-sky-500 text-gray-700 text-2xl transition" title="Github">
+                <a href="https://github.com/sternnaufal" class="hover:text-sky-500 text-gray-700 text-2xl transition" title="Github">
                     <i class="fa-brands fa-github"></i>
                 </a>
-                <a href="#" class="hover:text-blue-600 text-gray-700 text-2xl transition" title="Github">
+                <a href="https://github.com/ghawra" class="hover:text-blue-600 text-gray-700 text-2xl transition" title="Github">
                     <i class="fa-brands fa-github"></i>
                 </a>
             </div>
@@ -123,6 +124,16 @@
         </p>
     </div>
 </footer>
+
+{{-- Script Navbar Toggle --}}
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+
+    menuToggle.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
+</script>
 
 </body>
 </html>

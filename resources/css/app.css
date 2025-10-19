@@ -13,4 +13,32 @@
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
 } */
-    
+
+/* pastikan navbar selalu paling atas */
+nav.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 9999 !important;
+}
+
+/* Leaflet fix: pastikan map tidak bikin stacking context baru */
+#map,
+.leaflet-container {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Turunkan semua pane milik leaflet agar tidak menimpa */
+.leaflet-pane,
+.leaflet-tile-pane,
+.leaflet-overlay-pane,
+.leaflet-shadow-pane,
+.leaflet-marker-pane,
+.leaflet-popup-pane {
+  z-index: 0 !important;
+}
+
+/* Kecuali popup (biar tetap muncul di atas marker tapi tidak di atas navbar) */
+.leaflet-popup-pane {
+  z-index: 500 !important;
+}

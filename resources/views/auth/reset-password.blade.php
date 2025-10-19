@@ -1,65 +1,109 @@
-@extends('layouts.guest')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Reset Password | GreenEvent')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <title>Reset Password - Green Event</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
 
-@section('content')
-<div class="min-h-screen flex items-center justify-center bg-green-50">
-    <div class="bg-white shadow-lg rounded-2xl w-full max-w-md p-8 border border-green-200">
-        <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-green-700">🔒 Reset Your Password</h1>
-            <p class="text-gray-500 text-sm mt-1">Enter your new password below to regain access to your account.</p>
+<body class="bg-gray-100">
+
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('
+                success ') }}',
+                confirmButtonColor: '#16a34a',
+            });
+        });
+    </script>
+    @endif
+
+    <header class="sticky top-0 z-50 bg-green-500 text-white shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center py-3 px-4 sm:px-6 md:px-8">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-white text-green-600 flex items-center justify-center font-bold rounded">GE</div>
+                <span class="font-semibold text-sm sm:text-base">Green Event</span>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm sm:text-base">
+                <a href="/" class="font-medium hover:text-gray-100 transition">Beranda</a>
+                <a href="/events" class="font-medium hover:text-gray-100 transition">Event</a>
+                <a href="/about" class="font-medium hover:text-gray-100 transition">Tentang</a>
+            </nav>
+            <div class="hidden md:flex gap-3 text-sm sm:text-base">
+                <a href="{{ route('login') }}" class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100 transition">Masuk</a>
+                <a href="{{ route('register') }}" class="px-3 py-1 rounded bg-green-700 text-white font-medium hover:bg-green-800 transition">Daftar</a>
+            </div>
         </div>
+    </header>
 
-        <form method="POST" action="{{ route('password.store') }}">
-            @csrf
+    <div class="flex justify-center items-center min-h-[90vh]">
+        <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
+            <h3 class="text-center mb-6 font-bold text-2xl text-[#00C853]">Reset Password</h3>
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-            <!-- Email Address -->
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                <input id="email" type="email" name="email" value="{{ old('email', $request->email) }}"
-                       class="w-full mt-1 p-2 border border-green-300 rounded-lg focus:ring-green-500 focus:border-green-500"
-                       required autofocus autocomplete="username">
-                @error('email')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+            @if (session('status'))
+            <div class="mb-4 p-3 text-sm text-green-800 bg-green-100 rounded-md">
+                {{ session('status') }}
             </div>
+            @endif
 
-            <!-- Password -->
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
-                <input id="password" type="password" name="password"
-                       class="w-full mt-1 p-2 border border-green-300 rounded-lg focus:ring-green-500 focus:border-green-500"
-                       required autocomplete="new-password">
-                @error('password')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+            @if ($errors->any())
+            <div class="mb-4 p-3 text-sm text-red-800 bg-red-100 rounded-md">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
+            @endif
 
-            <!-- Confirm Password -->
-            <div class="mb-6">
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-                <input id="password_confirmation" type="password" name="password_confirmation"
-                       class="w-full mt-1 p-2 border border-green-300 rounded-lg focus:ring-green-500 focus:border-green-500"
-                       required autocomplete="new-password">
-                @error('password_confirmation')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+            <form method="POST" action="{{ route('password.store') }}">
+                @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
 
-            <!-- Submit -->
-            <div class="flex justify-between items-center">
-                <a href="{{ route('login') }}" class="text-sm text-green-600 hover:text-green-800">
-                    Back to Login
-                </a>
-                <button type="submit"
-                        class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition">
-                    Reset Password
-                </button>
-            </div>
-        </form>
+                <div class="mb-4">
+                    <label class="block font-semibold mb-1">Email</label>
+                    <input type="email" name="email" value="{{ old('email', $email) }}" readonly
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C853]">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-semibold mb-1">New Password</label>
+                    <input type="password" name="password" required
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C853]">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block font-semibold mb-1">Confirm Password</label>
+                    <input type="password" name="password_confirmation" required
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C853]">
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <button type="submit"
+                        class="w-full bg-[#00C853] text-white font-semibold py-2 rounded-md hover:bg-[#009624] transition">
+                        Reset Password
+                    </button>
+                </div>
+            </form>
+
+            <p class="text-center mt-4 text-gray-700">
+                Don’t have an account?
+                <a href="{{ route('register') }}" class="text-[#00C853] font-semibold hover:underline">Register here</a>
+            </p>
+        </div>
     </div>
-</div>
-@endsection
+
+    <footer class="bg-green-700 text-white text-center py-3 mt-auto">
+        <p>&copy; {{ date('Y') }} GreenEvent. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

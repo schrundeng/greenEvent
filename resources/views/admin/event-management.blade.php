@@ -1,82 +1,111 @@
 @extends('admin.layout')
 
 @section('content')
+<!-- Tambahkan Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <div class="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-md">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-green-700">Manajemen Event</h1>
-        <div class="flex items-center gap-2">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
+        <h1 class="text-3xl font-bold text-green-700 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-days text-green-600"></i> Manajemen Event
+        </h1>
+        <div class="flex flex-wrap gap-2">
             <a href="{{ route('admin.events-export') }}"
-                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                ⬇️ Export CSV
+                class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                <i class="fa-solid fa-file-export"></i> Export CSV
             </a>
             <a href="{{ route('admin.create-edit') }}"
-                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-                + Tambah Event
+                class="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                <i class="fa-solid fa-plus"></i> Tambah Event
             </a>
         </div>
     </div>
 
-
     {{-- Status badge --}}
     @php
     $statusLabels = [
-    'ongoing' => 'Ongoing',
-    'coming_soon' => 'Coming Soon',
-    'cancelled' => 'Cancelled',
-    'ended' => 'Ended',
+        'ongoing' => 'Ongoing',
+        'coming_soon' => 'Coming Soon',
+        'cancelled' => 'Cancelled',
+        'ended' => 'Ended',
     ];
 
     $statusColors = [
-    'ongoing' => 'bg-green-100 text-green-700',
-    'coming_soon' => 'bg-yellow-100 text-yellow-700',
-    'cancelled' => 'bg-red-100 text-red-700',
-    'ended' => 'bg-gray-200 text-gray-600',
+        'ongoing' => 'bg-green-100 text-green-700',
+        'coming_soon' => 'bg-yellow-100 text-yellow-700',
+        'cancelled' => 'bg-red-100 text-red-700',
+        'ended' => 'bg-gray-200 text-gray-600',
     ];
     @endphp
 
     {{-- Filter & Pencarian --}}
-    <div class="bg-white rounded-lg shadow p-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <form method="GET" action="{{ route('admin.event-management') }}" class="flex flex-wrap gap-3">
-            <input type="text" name="search" value="{{ request('search') }}"
-                placeholder="Cari event..."
-                class="px-3 py-2 border rounded w-64 focus:outline-none focus:ring focus:ring-green-200">
+    <div class="bg-gradient-to-r from-green-50 to-white rounded-lg shadow p-4 mb-6">
+        <form method="GET" action="{{ route('admin.event-management') }}"
+            class="flex flex-col md:flex-row md:flex-wrap gap-4 justify-start md:items-center">
+            
+            <div class="relative w-full md:w-64">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400"></i>
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Cari event..."
+                    class="pl-10 pr-3 py-2 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400">
+            </div>
 
-            <select name="category" class="px-10 pl-2 py-2 border rounded focus:outline-none focus:ring focus:ring-green-200">
-                <option value="">Semua Kategori</option>
-                @foreach($categories as $cat)
-                <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
-                    {{ $cat->name }}
-                </option>
-                @endforeach
-            </select>
+            <div class="relative">
+                <i class="fa-solid fa-tags absolute left-3 top-3 text-gray-400"></i>
+                <select name="category"
+                    class="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400">
+                    <option value="">Semua Kategori</option>
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                            {{ $cat->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-            <select name="status" class="px-10 pl-2 py-2 border rounded focus:outline-none focus:ring focus:ring-green-200">
-                <option value="">Semua Status</option>
-                <option value="coming_soon" {{ request('status') == 'coming_soon' ? 'selected' : '' }}>Coming Soon</option>
-                <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>Ongoing</option>
-                <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                <option value="ended" {{ request('status') == 'ended' ? 'selected' : '' }}>Ended</option>
-                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-            </select>
+            <div class="relative">
+                <i class="fa-solid fa-circle-info absolute left-3 top-3 text-gray-400"></i>
+                <select name="status"
+                    class="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400">
+                    <option value="">Semua Status</option>
+                    <option value="coming_soon" {{ request('status') == 'coming_soon' ? 'selected' : '' }}>Coming Soon</option>
+                    <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>Ongoing</option>
+                    <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                    <option value="ended" {{ request('status') == 'ended' ? 'selected' : '' }}>Ended</option>
+                    <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                </select>
+            </div>
 
             <button type="submit"
-                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-                Filter
+                class="flex items-center gap-2 px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                <i class="fa-solid fa-filter"></i> Filter
             </button>
         </form>
     </div>
 
     {{-- Tabel Event --}}
-    <div class="shadow mt-10 overflow-x-auto mt-4">
+    <div class="shadow mt-6 overflow-x-auto">
         <table id="eventsTable" class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
-            <thead class="bg-green-600 text-white select-none">
+            <thead class="bg-green-600 text-white">
                 <tr>
-                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(0)">Judul</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(1)">Kategori</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(2)">Tanggal</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(3)">Lokasi</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(4)">Status</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer text-center">Aksi</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(0)">
+                        <i class="fa-solid fa-heading mr-1"></i> Judul
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(1)">
+                        <i class="fa-solid fa-layer-group mr-1"></i> Kategori
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(2)">
+                        <i class="fa-solid fa-calendar mr-1"></i> Tanggal
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(3)">
+                        <i class="fa-solid fa-location-dot mr-1"></i> Lokasi
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(4)">
+                        <i class="fa-solid fa-circle-check mr-1"></i> Status
+                    </th>
+                    <th class="px-4 py-3 text-center text-sm font-semibold">
+                        <i class="fa-solid fa-gears"></i> Aksi
+                    </th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -94,17 +123,21 @@
                     </td>
                     <td class="px-4 py-2 text-right space-x-2">
                         <a href="{{ route('events.detail.show', $event->id) }}"
-                            class="px-3 py-1 text-sm bg-blue-600 text-white rounded">Lihat</a>
+                            class="inline-flex items-center gap-1 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
+                            <i class="fa-solid fa-eye"></i> Lihat
+                        </a>
                         <a href="{{ route('admin.event-edit', $event->id) }}"
-                            class="px-3 py-1 text-sm bg-yellow-600 text-white rounded">Edit</a>
-                        <form action="{{ route('admin.events-destroy', $event->id) }}" method="POST" class="inline delete-form">
+                            class="inline-flex items-center gap-1 px-3 py-1 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700">
+                            <i class="fa-solid fa-pen"></i> Edit
+                        </a>
+                        <form action="{{ route('admin.events-destroy', $event->id) }}" method="POST"
+                            class="inline delete-form">
                             @csrf
-                            <button type="submit" class="px-3 py-1 text-sm bg-red-600 text-white rounded delete-btn">
-                                Hapus
+                            <button type="submit"
+                                class="inline-flex items-center gap-1 px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 delete-btn">
+                                <i class="fa-solid fa-trash"></i> Hapus
                             </button>
                         </form>
-
-
                     </td>
                 </tr>
                 @empty
@@ -123,7 +156,8 @@
         {{ $events->links() }}
     </div>
 </div>
-{{-- Script Sorting ASC/DESC --}}
+
+{{-- Script Sorting & SweetAlert tetap sama --}}
 <script>
     function sortTable(n) {
         const table = document.getElementById("eventsTable");
@@ -131,42 +165,34 @@
         const rows = Array.from(tbody.querySelectorAll("tr"));
         const headers = table.querySelectorAll("th");
 
-        // Reset semua panah
         headers.forEach((header) => {
             const arrow = header.querySelector(".arrow");
             if (arrow) arrow.remove();
         });
 
-        // Tentukan arah sort
         let asc = table.dataset.sortColumn == n ? table.dataset.sortOrder !== "asc" : true;
 
         rows.sort((a, b) => {
             const cellA = a.children[n].innerText.trim().toLowerCase();
             const cellB = b.children[n].innerText.trim().toLowerCase();
-
-            if (!isNaN(cellA) && !isNaN(cellB)) {
-                return asc ? cellA - cellB : cellB - cellA;
-            }
+            if (!isNaN(cellA) && !isNaN(cellB)) return asc ? cellA - cellB : cellB - cellA;
             return asc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
         });
 
         tbody.innerHTML = "";
         rows.forEach(row => tbody.appendChild(row));
 
-        // Simpan status urutan & kolom
         table.dataset.sortOrder = asc ? "asc" : "desc";
         table.dataset.sortColumn = n;
 
-        // Tambahkan panah arah ke header aktif (tidak menimpa teks)
         const arrow = document.createElement("span");
         arrow.classList.add("arrow");
         arrow.textContent = asc ? "▲" : "▼";
-        arrow.classList.add("text-right", "ml-5", "text-gray-200");
+        arrow.classList.add("text-right", "ml-2", "text-gray-200");
         headers[n].appendChild(arrow);
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Konfirmasi hapus pakai SweetAlert
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -181,21 +207,17 @@
                     confirmButtonText: 'Ya, hapus!',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+                    if (result.isConfirmed) form.submit();
                 });
             });
         });
 
-        // SweetAlert Toast setelah redirect
         @if(session('success'))
         Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'success',
-            title: '{{ session('
-            success ') }}',
+            title: '{{ session('success') }}',
             showConfirmButton: false,
             timer: 2500,
             timerProgressBar: true,
@@ -205,8 +227,7 @@
             toast: true,
             position: 'top-end',
             icon: 'error',
-            title: '{{ session('
-            error ') }}',
+            title: '{{ session('error') }}',
             showConfirmButton: false,
             timer: 2500,
             timerProgressBar: true,

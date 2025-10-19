@@ -13,7 +13,7 @@
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
   {{-- Navbar --}}
-  <nav class="sticky top-0 w-full bg-[#00C853] text-white shadow-md z-50">
+  <nav class="sticky top-0 w-full bg-[#00C853] text-white shadow-md z-9999">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
       <!-- Logo -->
       <a href="/" class="flex items-center text-white font-bold text-lg">
@@ -100,7 +100,7 @@
             <div class="flex flex-wrap gap-4">
                 <a href="#" class="hover:text-pink-600 text-gray-700 text-2xl transition" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 <a href="#" class="hover:text-blue-500 text-gray-700 text-2xl transition" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="hover:text-blue-600 text-gray-700 text-2xl transition" title="Github"><i class="fa-brands fa-github"></i></a>
+                <a href="https://github.com/schrundeng/greenEvent" class="hover:text-blue-600 text-gray-700 text-2xl transition" title="Github"><i class="fa-brands fa-github"></i></a>
             </div>
         </div>
         <!-- Kontak -->

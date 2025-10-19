@@ -40,7 +40,7 @@ class userController extends Controller
         $this->checkRole('user');
 
         $user = Auth::user();
-        return view('user.user-edit-profile', compact('user'));
+        return view('user.user-edit- profile', compact('user'));
     }
 
     // hanya admin yang bisa export data user

@@ -21,6 +21,10 @@ class eventController extends Controller
      */
     public function index()
     {
+
+        if (Auth::check() && Auth::user()->role === ['user', 'admin']) {
+            return redirect()->route('landing');
+        }
         try {
             $events = Event::with(['category'])->latest()->get();
             return view('events', compact('events'));
@@ -35,6 +39,10 @@ class eventController extends Controller
      */
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized');
         }
@@ -48,6 +56,10 @@ class eventController extends Controller
      */
     public function adminIndex(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized');
         }
@@ -95,6 +107,10 @@ class eventController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized');
         }
@@ -151,6 +167,10 @@ class eventController extends Controller
      */
     public function edit(Event $event)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized');
         }
@@ -235,6 +255,11 @@ class eventController extends Controller
      */
     public function export()
     {
+
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized');
         }

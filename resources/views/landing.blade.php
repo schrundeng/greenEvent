@@ -215,13 +215,13 @@
                 <i class="fa-solid fa-share-nodes text-green-600"></i> Ikuti Kami
             </h4>
             <div class="flex items-center gap-5">
-                <a href="#" class="hover:text-pink-600 text-gray-700 text-2xl transition" title="Github">
+                <a href="github.com/schrundeng" class="hover:text-pink-600 text-gray-700 text-2xl transition" title="Github">
                     <i class="fa-brands fa-github"></i>
                 </a>
-                <a href="#" class="hover:text-sky-500 text-gray-700 text-2xl transition" title="Github">
+                <a href="https://github.com/sternnaufal" class="hover:text-sky-500 text-gray-700 text-2xl transition" title="Github">
                     <i class="fa-brands fa-github"></i>
                 </a>
-                <a href="#" class="hover:text-blue-600 text-gray-700 text-2xl transition" title="Github">
+                <a href="https://github.com/ghawra" class="hover:text-blue-600 text-gray-700 text-2xl transition" title="Github">
                     <i class="fa-brands fa-github"></i>
                 </a>
             </div>

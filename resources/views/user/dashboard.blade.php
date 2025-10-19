@@ -15,7 +15,11 @@
     });
 </script>
 @endif
-
+<style>
+    .leaflet-map-pane {
+    z-index: 0 !important;
+}
+    </style>
 <h1 class="text-2xl font-bold text-green-700 mb-4 flex items-center gap-2">
     <i class="fa-solid fa-gauge-high text-green-600"></i>
     Dashboard
@@ -25,7 +29,7 @@
 <div class="flex flex-col lg:flex-row gap-6">
 
     {{-- Peta --}}
-    <div class="w-full lg:w-3/5 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-lg shadow-md order-2 lg:order-1">
+    <div class="w-full lg:w-3/5 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-lg shadow-md order-2 lg:order-1 z-1">
         <div id="map" class="w-full h-full rounded-lg"></div>
     </div>
 
@@ -145,7 +149,7 @@
         if ((event.status === 'ongoing' || event.status === 'coming_soon') &&
             event.latitude && event.longitude) {
 
-            const marker = L.marker([event.latitude, event.longitude]).addTo(map);
+            const marker = L.marker([event.longitude,event.latitude]).addTo(map);
             const popupContent = `
                 <div class="popup-card font-sans">
                     <img src="/storage/${event.poster}" alt="${event.title}" class="popup-image">

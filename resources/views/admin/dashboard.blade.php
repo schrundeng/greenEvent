@@ -94,117 +94,128 @@
         </div>
     </div>
     <div class="flex flex-wrap gap-6 mt-2 mb-2">
-    {{-- Statistik Status Event (40%) --}}
-    <div class="w-full lg:w-1/4 bg-white rounded-lg shadow-md p-4 mb-8">
-            <h2 class="text-sm font-medium text-gray-600 uppercase mb-4 ">Event Status Monitoring</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div class="bg-green-50 p-4 rounded-lg shadow hover:shadow-lg transition">
-                <h2 class="text-sm font-medium text-gray-600 uppercase">Ongoing</h2>
-                <p class="text-3xl font-bold text-green-700 mt-2">{{$statusCount['ongoing'] ?? 0}}</p>
+
+    {{-- Statistik Status Event (50%) --}}
+    <div class="w-full lg:w-2/5 bg-white rounded-lg mr-auto shadow-md p-5 hover:shadow-lg transition">
+        <h2 class="text-lg font-bold text-green-700 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-chart-pie text-green-600"></i> Event Status Monitoring
+        </h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-2 gap-3">
+            <div class="bg-green-50 p-4 rounded-lg shadow hover:shadow-md transition">
+                <h2 class="flex items-center gap-2 text-sm font-medium text-gray-600 uppercase">
+                    <i class="fa-solid fa-play text-green-600"></i> Ongoing
+                </h2>
+                <p class="text-3xl font-bold text-green-700 mt-2">{{ $statusCount['ongoing'] ?? 0 }}</p>
             </div>
 
-            <div class="bg-yellow-50 p-4 rounded-lg shadow hover:shadow-lg transition">
-                <h2 class="text-sm font-medium text-gray-600 uppercase">Coming Soon</h2>
-                <p class="text-3xl font-bold text-yellow-700 mt-2">{{$statusCount['coming_soon'] ?? 0}}</p>
+            <div class="bg-yellow-50 p-4 rounded-lg shadow hover:shadow-md transition">
+                <h2 class="flex items-center gap-2 text-sm font-medium text-gray-600 uppercase">
+                    <i class="fa-solid fa-hourglass-start text-yellow-600"></i> Coming Soon
+                </h2>
+                <p class="text-3xl font-bold text-yellow-700 mt-2">{{ $statusCount['coming_soon'] ?? 0 }}</p>
             </div>
 
-            <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-lg transition">
-                <h2 class="text-sm font-medium text-gray-600 uppercase">Ended</h2>
-                <p class="text-3xl font-bold text-gray-700 mt-2">{{$statusCount['ended'] ?? 0}}</p>
+            <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition">
+                <h2 class="flex items-center gap-2 text-sm font-medium text-gray-600 uppercase">
+                    <i class="fa-solid fa-flag-checkered text-gray-600"></i> Ended
+                </h2>
+                <p class="text-3xl font-bold text-gray-700 mt-2">{{ $statusCount['ended'] ?? 0 }}</p>
             </div>
 
-            <div class="bg-red-50 p-4 rounded-lg shadow hover:shadow-lg transition">
-                <h2 class="text-sm font-medium text-gray-600 uppercase">Cancelled</h2>
-                <p class="text-3xl font-bold text-red-700 mt-2">{{$statusCount['cancelled'] ?? 0}}</p>
+            <div class="bg-red-50 p-4 rounded-lg shadow hover:shadow-md transition">
+                <h2 class="flex items-center gap-2 text-sm font-medium text-gray-600 uppercase">
+                    <i class="fa-solid fa-ban text-red-600"></i> Cancelled
+                </h2>
+                <p class="text-3xl font-bold text-red-700 mt-2">{{ $statusCount['cancelled'] ?? 0 }}</p>
             </div>
         </div>
     </div>
 
-    <div class="w-full lg:w-2/5">
-        {{-- User Baru Bergabung --}}
-<div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-    <h2 class="text-lg font-bold text-gray-800 mb-4">👥 User Baru Bergabung</h2>
+    <div class="w-full lg:w-3/6 bg-white rounded-lg shadow-md p-3 hover:shadow-lg transition">
+        <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-users text-blue-600"></i> User Baru Bergabung
+        </h2>
 
-    <ul class="space-y-3">
-        @forelse ($latestUsers as $user)
-            <li class="flex items-center justify-between border-b border-gray-100 pb-2">
-                <span class="text-gray-700 font-medium">@ {{$user->username}}</span>
-                <span class="text-sm text-gray-500">
-                    joined {{$user->created_at->diffForHumans()}}
-                </span>
-            </li>
-        @empty
-            <li class="text-gray-500 italic">Belum ada pengguna baru.</li>
-        @endforelse
-    </ul>
-</div>
-
+        <ul class="space-y-3">
+            @forelse ($latestUsers as $user)
+                <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                    <span class="text-gray-700 font-medium flex items-center gap-2">
+                        <i class="fa-solid fa-user text-gray-500"></i> @ {{ $user->username }}
+                    </span>
+                    <span class="text-sm text-gray-500">
+                        <i class="fa-solid fa-clock text-gray-400"></i> {{ $user->created_at->diffForHumans() }}
+                    </span>
+                </li>
+            @empty
+                <li class="text-gray-500 italic flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info"></i> Belum ada pengguna baru.
+                </li>
+            @endforelse
+        </ul>
     </div>
+
 </div>
 
 
-    {{-- Daftar Event Terbaru --}}
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold text-green-700">Event Terbaru</h2>
-            <a href="" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
-        </div>
-
-        @if($events->isEmpty())
-        <p class="text-gray-600">Belum ada event yang dibuat.</p>
-        @else
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-green-50 border-b">
-                        <th class="px-4 py-2 text-sm font-semibold text-gray-700">Judul</th>
-                        <th class="px-4 py-2 text-sm font-semibold text-gray-700">Kategori</th>
-                        <th class="px-4 py-2 text-sm font-semibold text-gray-700">Tanggal</th>
-                        <th class="px-4 py-2 text-sm font-semibold text-gray-700">Status</th>
-                        <th class="px-4 py-2 text-sm font-semibold text-gray-700 text-right">Detail Event</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($events as $event)
-                    {{-- Status badge --}}
-                    @php
-                    $statusLabels = [
-                    'ongoing' => 'Ongoing',
-                    'coming_soon' => 'Coming Soon',
-                    'cancelled' => 'Cancelled',
-                    'ended' => 'Ended',
-                    ];
-
-                    $statusColors = [
-                    'ongoing' => 'bg-green-100 text-green-700',
-                    'coming_soon' => 'bg-yellow-100 text-yellow-700',
-                    'cancelled' => 'bg-red-100 text-red-700',
-                    'ended' => 'bg-gray-200 text-gray-600',
-                    ];
-                    @endphp
-
-                    <tr class="border-b hover:bg-green-50">
-                        <td class="px-4 py-2">{{ $event->title }}</td>
-                        <td class="px-4 py-2">{{ $event->category->name ?? '-' }}</td>
-                        <td class="px-4 py-2">{{ $event->start_date->format('d/m/Y') }}</td>
-                        <td class="px-4 py-2">
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $statusColors[$event->status] ?? 'bg-gray-100 text-gray-500' }}">
-                                {{ $statusLabels[$event->status] ?? ucfirst($event->status) }}
-                            </span>
-
-                        </td>
-                        <td class="px-4 py-2 text-right">
-                            <a href="{{ route('event.detail.index', $event->id) }}"
-                                class="text-green-600 hover:text-green-800 font-medium text-sm">
-                                Detail
-                            </a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        @endif
+   {{-- Tabel Event --}}
+    <div class="shadow mt-6 overflow-x-auto">
+        <table id="eventsTable" class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+            <thead class="bg-green-600 text-white">
+                <tr>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(0)">
+                        <i class="fa-solid fa-heading mr-1"></i> Judul
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(1)">
+                        <i class="fa-solid fa-layer-group mr-1"></i> Kategori
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(2)">
+                        <i class="fa-solid fa-calendar mr-1"></i> Tanggal
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(3)">
+                        <i class="fa-solid fa-location-dot mr-1"></i> Lokasi
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold cursor-pointer" onclick="sortTable(4)">
+                        <i class="fa-solid fa-circle-check mr-1"></i> Status
+                    </th>
+                    <th class="px-4 py-3 text-center text-sm font-semibold">
+                        <i class="fa-solid fa-gears"></i> Aksi
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                @forelse($events as $event)
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-4 py-2 font-medium text-gray-900">{{ $event->title }}</td>
+                    <td class="px-4 py-2 font-medium text-gray-900">{{ $event->category->name ?? '-' }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-600">{{ $event->start_date->format('d/m/Y') }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-600">{{ $event->location }}</td>
+                    <td class="px-4 py-2">
+                        <span class="px-2 py-1 text-xs rounded 
+                             {{ $statusColors[$event->status] ?? 'bg-gray-100 text-gray-500' }}">
+                            {{ $statusLabels[$event->status] ?? ucfirst($event->status) }}
+                        </span>
+                    </td>
+                    <td class="px-4 py-2 text-right space-x-2">
+                        <a href="{{ route('events.detail.show', $event->id) }}"
+                            class="inline-flex items-center gap-1 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </a>
+                        <a href="{{ route('admin.event-show-registers', $event->id) }}"
+                            class="inline-flex items-center gap-1 px-3 py-1 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700">
+                            <i class="fa-solid fa-user"></i> Pendaftar
+                        </a>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center text-gray-600 py-6">
+                        Belum ada event yang tersedia.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 

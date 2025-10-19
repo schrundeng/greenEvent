@@ -13,6 +13,13 @@ class RegisController extends Controller
 {
     public function index(Event $event)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
         try {
             // Load registrations with users
             $registrations = Regis::with('user')
@@ -52,6 +59,16 @@ class RegisController extends Controller
 
     public function userHistory()
     {
+
+        if (!Auth::check()) {
+            return redirect()->route('landing')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        if (Auth::user()->role !== 'user') {
+            return redirect()->route('admin.dashboard')
+                ->with('error', 'Akses ditolak. Halaman ini khusus untuk user.');
+        }
         try {
             $event = Event::all();
             $registrations = Regis::with(['event'])
@@ -67,11 +84,18 @@ class RegisController extends Controller
 
     public function create(Event $event)
     {
+
         try {
-            // $event = Event::where('id', $idOrSlug)
-            //     ->orWhere('slug', $idOrSlug)
-            //     ->where('status', '!=', 'ended')
-            //     ->firstOrFail();
+
+            if (!Auth::check()) {
+                return redirect()->route('login')
+                    ->with('error', 'Silakan login terlebih dahulu.');
+            }
+
+            if (Auth::user()->role !== 'user') {
+                return redirect()->route('admin.dashboard')
+                    ->with('error', 'Akses ditolak. Halaman ini khusus untuk user.');
+            }
             if ($event->status === 'ended') {
                 return redirect()->route('events')
                     ->with('error', 'This event has already ended.');
@@ -84,7 +108,7 @@ class RegisController extends Controller
 
             return view('user.event-register', compact('event', 'isRegistered'));
         } catch (\Exception $e) {
-            return redirect()->route('events', $event)
+            return redirect()->route('events.detail.show', $event)
                 ->with('error', 'Unable to load registration form.');
         }
     }

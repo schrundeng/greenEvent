@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {{-- Judul Event --}}
-    <h1 class="text-2xl sm:text-3xl font-bold text-green-700 mb-4">{{ $event->title }}</h1>
+    <h1 class="text-2xl sm:text-3xl font-bold text-green-700 mb-4">{{ $event->title }}
 
     {{-- Info Event --}}
     <div class="text-gray-600 mb-6 space-y-1 sm:space-y-2">
