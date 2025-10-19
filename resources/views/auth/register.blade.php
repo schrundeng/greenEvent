@@ -21,10 +21,9 @@
 
         <!-- Nav Links -->
        <nav class="flex gap-6">
-                <a href="#" class="font-medium hover:text-gray-100 transition">Beranda</a>
+                <a href="/" class="font-medium hover:text-gray-100 transition">Beranda</a>
                 <a href="/events" class="font-medium hover:text-gray-100 transition">Event</a>
-                <a href="#" class="font-medium hover:text-gray-100 transition">Tentang</a>
-                <a href="#" class="font-medium hover:text-gray-100 transition">Kontak</a>
+                <a href="/about" class="font-medium hover:text-gray-100 transition">Tentang</a>
             </nav>
 
         <!-- Auth Buttons -->

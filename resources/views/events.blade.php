@@ -2,12 +2,13 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-10">
-    <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8 sm:mb-10">
-        🌿 Semua Event
+    <h2 class="text-2xl sm:text-3xl font-bold text-center text-green-700 mb-8 sm:mb-10 flex items-center justify-center gap-2">
+        <i class="fa-solid fa-leaf text-green-600"></i> Semua Event
     </h2>
 
     @if($events->isEmpty())
         <p class="text-center text-gray-500 text-sm sm:text-base">
+            <i class="fa-regular fa-calendar-xmark text-gray-400 mr-1"></i>
             Tidak ada event yang tersedia saat ini.
         </p>
     @else
@@ -30,7 +31,7 @@
                             >
                         @else
                             <div class="w-full h-40 sm:h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-                                Tidak ada poster
+                                <i class="fa-regular fa-image text-gray-400 mr-2"></i> Tidak ada poster
                             </div>
                         @endif
 
@@ -57,21 +58,30 @@
                                             'cancelled' => 'bg-red-100 text-red-700',
                                             'ended' => 'bg-gray-200 text-gray-600',
                                         ];
+
+                                        $statusIcons = [
+                                            'ongoing' => 'fa-solid fa-circle-play',
+                                            'coming_soon' => 'fa-regular fa-clock',
+                                            'cancelled' => 'fa-solid fa-ban',
+                                            'ended' => 'fa-regular fa-calendar-check',
+                                        ];
                                     @endphp
 
-                                    <span class="mt-1 text-xs font-medium px-2 py-1 rounded-full {{ $statusColors[$event->status] ?? 'bg-gray-100 text-gray-500' }}">
+                                    <span class="mt-1 text-xs font-medium px-2 py-1 rounded-full flex items-center gap-1 {{ $statusColors[$event->status] ?? 'bg-gray-100 text-gray-500' }}">
+                                        <i class="{{ $statusIcons[$event->status] ?? 'fa-regular fa-circle' }}"></i>
                                         {{ $statusLabels[$event->status] ?? ucfirst($event->status) }}
                                     </span>
                                 </div>
 
                                 <!-- Info Event -->
-                                <p class="text-gray-500 text-xs sm:text-sm mb-2 flex items-center gap-1">
-                                    <i class="bi bi-calendar-event"></i>
+                                <p class="text-gray-500 text-xs sm:text-sm mb-2 flex items-center gap-2">
+                                    <i class="fa-solid fa-calendar-day text-green-600"></i>
                                     {{ \Carbon\Carbon::parse($event->start_date)->format('d M Y') }}
                                 </p>
 
-                                <p class="text-gray-500 text-xs sm:text-sm mb-3 flex items-center gap-1">
-                                    <i class="bi bi-geo-alt"></i> {{ $event->location }}
+                                <p class="text-gray-500 text-xs sm:text-sm mb-3 flex items-center gap-2">
+                                    <i class="fa-solid fa-location-dot text-green-600"></i>
+                                    {{ $event->location }}
                                 </p>
 
                                 <p class="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
@@ -81,8 +91,8 @@
 
                             <!-- Tombol -->
                             <a href="{{ route('events.detail.show', $event->slug ?? $event->id) }}"
-                               class="mt-auto inline-block text-center w-full bg-green-600 text-white py-2 sm:py-2.5 rounded-lg text-sm font-medium hover:bg-green-700 transition">
-                                Lihat Detail
+                               class="mt-auto inline-block text-center w-full bg-green-600 text-white py-2 sm:py-2.5 rounded-lg text-sm font-medium hover:bg-green-700 transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-circle-info"></i> Lihat Detail
                             </a>
                         </div>
                     </div>

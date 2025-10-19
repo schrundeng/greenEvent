@@ -62,6 +62,7 @@
            <a href="/about" class="block font-medium hover:text-gray-100 transition">Tentang</a>
 
            @auth
+           <a href="/user/dashboard" class="block font-medium hover:text-gray-100 transition">Dashboard</a>
                <form method="POST" action="{{ route('logout') }}">
                    @csrf
                    <button type="submit"
