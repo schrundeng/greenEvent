@@ -33,7 +33,11 @@ COPY . /var/www/html
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Install Node dependencies and build assets
-RUN npm install && npm run build
+RUN npm ci
+RUN npm run build
+
+# Verify build directory exists
+RUN ls -la /var/www/html/public/build/assets/ || echo "Build directory missing!"
 
 # Create storage directories
 RUN mkdir -p /var/www/html/storage/logs \
@@ -58,9 +62,6 @@ RUN if [ ! -f .env ]; then cp .env.example .env; fi
 # Generate application key
 RUN php artisan key:generate
 
-# Cache views only (config and route cache need proper env vars at runtime)
-RUN php artisan view:cache
-
 # Expose port 80
 EXPOSE 80
 
@@ -77,9 +78,13 @@ if [ "$RUN_MIGRATIONS" = "true" ]; then\n\
   php artisan migrate --force\n\
 fi\n\
 \n\
-# Clear and cache config/routes\n\
+# Clear all caches\n\
 php artisan config:clear\n\
 php artisan route:clear\n\
+php artisan view:clear\n\
+php artisan cache:clear\n\
+\n\
+# Re-cache\n\
 php artisan config:cache\n\
 php artisan route:cache\n\
 \n\
