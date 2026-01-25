@@ -33,7 +33,7 @@ COPY . /var/www/html
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Install Node dependencies and build assets
-RUN npm ci
+RUN npm install
 RUN npm run build
 
 # Verify build directory exists
