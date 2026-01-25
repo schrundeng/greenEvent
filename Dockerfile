@@ -37,13 +37,14 @@ RUN npm install && npm run build
 
 # Create storage directories
 RUN mkdir -p /var/www/html/storage/logs \
-    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/app/public \
+    /var/www/html/storage/framework/cache/data \
     /var/www/html/storage/framework/sessions \
     /var/www/html/storage/framework/views \
     /var/www/html/bootstrap/cache
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Set permissions - run as www-data user
+RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Configure Apache
@@ -64,17 +65,26 @@ RUN php artisan view:cache
 EXPOSE 80
 
 # Create startup script
-RUN echo '#!/bin/bash\n\
-# Ensure proper permissions\n\
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache\n\
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache\n\
+RUN printf '#!/bin/bash\n\
+set -e\n\
+\n\
+# Fix permissions at runtime\n\
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true\n\
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true\n\
+\n\
+# Run migrations if enabled\n\
+if [ "$RUN_MIGRATIONS" = "true" ]; then\n\
+  php artisan migrate --force\n\
+fi\n\
+\n\
 # Clear and cache config/routes\n\
 php artisan config:clear\n\
 php artisan route:clear\n\
 php artisan config:cache\n\
 php artisan route:cache\n\
+\n\
 # Start Apache\n\
-apache2-foreground' > /usr/local/bin/start.sh && \
+exec apache2-foreground\n' > /usr/local/bin/start.sh && \
 chmod +x /usr/local/bin/start.sh
 
 # Start Apache with Laravel optimizations
