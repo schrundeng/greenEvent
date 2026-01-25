@@ -33,7 +33,6 @@ Route::prefix('user')->group(function () {
     Route::get('/registration/{event}', [RegisController::class, 'create'])->name('user.event-register');
     Route::post('/registration/{event}', [RegisController::class, 'store'])->name('user.event-register.store');
     Route::get('/history', [RegisController::class, 'userHistory'])->name('user.event-history');
-    Route::get('/event-register', [RegisController::class, 'create'])->name('user.event-register');
 });
 
 
