@@ -50,11 +50,18 @@ RUN mkdir -p /var/www/html/storage/logs \
 # Set permissions - run as www-data user
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 755 /var/www/html/public/build
 
 # Configure Apache
-RUN a2enmod rewrite
+RUN a2enmod rewrite headers
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+
+# Add CORS headers for build assets
+RUN echo '<Directory /var/www/html/public/build>\n\
+    Header set Access-Control-Allow-Origin "*"\n\
+    Header set Access-Control-Allow-Methods "GET"\n\
+</Directory>' >> /etc/apache2/sites-available/000-default.conf
 
 # Create .env from .env.example if .env doesn't exist
 RUN if [ ! -f .env ]; then cp .env.example .env; fi
