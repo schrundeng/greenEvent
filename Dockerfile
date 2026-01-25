@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+# Install PHP extensions (including PostgreSQL support)
+RUN docker-php-ext-install pdo_mysql pdo_pgsql pgsql mbstring exif pcntl bcmath gd
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -33,6 +33,13 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Install Node dependencies and build assets
 RUN npm install && npm run build
+
+# Create storage directories
+RUN mkdir -p /var/www/html/storage/logs \
+    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/bootstrap/cache
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
@@ -57,8 +64,15 @@ EXPOSE 80
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
+# Ensure proper permissions\n\
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache\n\
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache\n\
+# Clear and cache config/routes\n\
+php artisan config:clear\n\
+php artisan route:clear\n\
 php artisan config:cache\n\
 php artisan route:cache\n\
+# Start Apache\n\
 apache2-foreground' > /usr/local/bin/start.sh && \
 chmod +x /usr/local/bin/start.sh
 
