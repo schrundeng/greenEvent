@@ -49,13 +49,18 @@ RUN if [ ! -f .env ]; then cp .env.example .env; fi
 # Generate application key
 RUN php artisan key:generate
 
-# Optimize Laravel
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
+# Cache views only (config and route cache need proper env vars at runtime)
+RUN php artisan view:cache
 
 # Expose port 80
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Create startup script
+RUN echo '#!/bin/bash\n\
+php artisan config:cache\n\
+php artisan route:cache\n\
+apache2-foreground' > /usr/local/bin/start.sh && \
+chmod +x /usr/local/bin/start.sh
+
+# Start Apache with Laravel optimizations
+CMD ["/usr/local/bin/start.sh"]
