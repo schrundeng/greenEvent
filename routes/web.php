@@ -7,16 +7,12 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\eventController as ControllersEventController;
 use App\Http\Controllers\RegisController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\MagicLinkController;
 
-Route::get('/', function () {
-    return view('landing');
-})->name('landing');
-
-Route::get('/about', function () {
-    return view('about');
-});
+Route::get('/', [PageController::class, 'landing'])->name('landing');
+Route::get('/about', [PageController::class, 'about'])->name('about');
 
 // Auth routes (register, login, logout)
 require __DIR__ . '/auth.php';
@@ -68,9 +64,4 @@ Route::get('/event-detail/{event}', [EventController::class, 'show'])->name('eve
 // Magic Link Authentication
 Route::get('/magic-login', [MagicLinkController::class, 'showForm'])->name('magic.login');
 Route::post('/magic-login', [MagicLinkController::class, 'sendLink'])->name('magic.send');
-Route::get('/magic-login/verify/{token}', [MagicLinkController::class, 'verify'])->name('magic.verify');    
-
-Route::get('/forgot-password', [MagicLinkController::class, 'showForm'])->name('magic.form');
-Route::post('/forgot-password', [MagicLinkController::class, 'sendLink'])->name('magic.send');
-Route::get('/reset-password/{token}', [MagicLinkController::class, 'showResetForm'])->name('magic.reset');
-Route::post('/reset-password', [MagicLinkController::class, 'resetPassword'])->name('password.store');
+Route::get('/magic-login/verify/{token}', [MagicLinkController::class, 'verify'])->name('magic.verify');
