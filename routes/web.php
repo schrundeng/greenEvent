@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\eventController as ControllersEventController;
 use App\Http\Controllers\RegisController;
-use App\Http\Controllers\userController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\MagicLinkController;
@@ -22,9 +21,9 @@ Route::resource('categories', CategoriesController::class);
 
 // User Pages
 Route::prefix('user')->group(function () {
-    Route::get('/dashboard', [dashboardController::class, 'index'])->name('user.dashboard');
-    Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
-    Route::get('/edit/profile', [userController::class, 'edit'])->name('user.user-edit');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/edit/profile', [UserController::class, 'edit'])->name('user.user-edit');
     Route::put('/update-profile', [UserController::class, 'update'])->name('user.user-update');
     Route::get('/registration/{event}', [RegisController::class, 'create'])->name('user.event-register');
     Route::post('/registration/{event}', [RegisController::class, 'store'])->name('user.event-register.store');
@@ -34,11 +33,11 @@ Route::prefix('user')->group(function () {
 
 // Admin Pages
 Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [dashboardController::class, 'adminIndex'])->name('admin.dashboard');
-    Route::get('/manage/users', [userController::class, 'index'])->name('admin.user-management');
-    Route::get('/manage/users/export', [userController::class, 'export'])->name('admin.users-export');
-    Route::get('/manage/events', [eventController::class, 'adminIndex'])->name('admin.event-management');
-    Route::get('/manage/events/export', [eventController::class, 'export'])->name('admin.events-export');
+    Route::get('/dashboard', [DashboardController::class, 'adminIndex'])->name('admin.dashboard');
+    Route::get('/manage/users', [UserController::class, 'index'])->name('admin.user-management');
+    Route::get('/manage/users/export', [UserController::class, 'export'])->name('admin.users-export');
+    Route::get('/manage/events', [EventController::class, 'adminIndex'])->name('admin.event-management');
+    Route::get('/manage/events/export', [EventController::class, 'export'])->name('admin.events-export');
     Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('admin.user.destroy');
 
 

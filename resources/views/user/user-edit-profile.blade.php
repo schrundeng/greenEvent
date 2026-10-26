@@ -11,6 +11,16 @@
         </div>
         @endif
 
+        @if($errors->any())
+        <div class="bg-red-100 text-red-800 p-3 rounded mb-4 text-sm sm:text-base">
+            <ul class="list-disc pl-5">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <form action="{{ route('user.user-update') }}" method="POST" class="space-y-5">
             @csrf
             @method('PUT')
@@ -19,7 +29,7 @@
             <div>
                 <label for="username" class="block text-gray-700 font-semibold mb-1">Username</label>
                 <input type="text" id="username" name="username"
-                    value="{{-- auth()->user()->username --}}"
+                    value="{{ old('username', auth()->user()->username) }}"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-green-500"
                     required>
             </div>

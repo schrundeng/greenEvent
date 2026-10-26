@@ -14,7 +14,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class eventController extends Controller
+class EventController extends Controller
 {
     /**
      * Display a listing of events (user boleh lihat)

@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
-class userController extends Controller
+class UserController extends Controller
 {
     private function checkRole($role)
     {
@@ -40,7 +40,7 @@ class userController extends Controller
         $this->checkRole('user');
 
         $user = Auth::user();
-        return view('user.user-edit- profile', compact('user'));
+        return view('user.user-edit-profile', compact('user'));
     }
 
     // hanya admin yang bisa export data user

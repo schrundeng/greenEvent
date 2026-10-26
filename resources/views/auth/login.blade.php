@@ -84,8 +84,8 @@
 
                 <div class="flex items-center justify-between mb-4">
 
-                    @if (Route::has('magic.form'))
-                        <a href="{{ route('magic.form') }}" class="text-sm text-[#00C853] font-semibold hover:underline">
+                    @if (Route::has('magic.login'))
+                        <a href="{{ route('magic.login') }}" class="text-sm text-[#00C853] font-semibold hover:underline">
                             Forgot password?
                         </a>
                     @endif

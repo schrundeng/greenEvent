@@ -25,7 +25,7 @@
             <a href="{{ route('user.dashboard') }}" 
                class="font-medium hover:text-gray-100 transition">Home</a>
 
-            <a href="{{ route('user.event-regis') }}" 
+            <a href="{{ route('user.event-history') }}" 
                class="font-medium hover:text-gray-100 transition">My Events</a>
 
             <a href="{{ route('user.profile') }}" 

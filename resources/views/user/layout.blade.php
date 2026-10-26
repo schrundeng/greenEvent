@@ -34,6 +34,7 @@
         <a href="{{ route('user.dashboard') }}" class="font-medium hover:text-gray-100 transition">Home</a>
         <a href="{{ route('user.event-history') }}" class="font-medium hover:text-gray-100 transition flex items-center gap-1"><i class="fa fa-calendar" aria-hidden="true"></i> My Events</a>
         <a href="{{ route('user.profile') }}" class="font-medium hover:text-gray-100 transition flex items-center gap-1"><i class="fa-solid fa-user-tie"></i> Hi, {{ auth()->user()->username ?? '' }}!</a>
+        <a href="{{ route('user.user-edit') }}" class="font-medium hover:text-gray-100 transition flex items-center gap-1"><i class="fa-solid fa-pen-to-square"></i> Edit Profil</a>
         <form id="logout-form-desktop" method="POST" action="{{ route('logout') }}">
           @csrf
           <button type="button" id="logout-btn-desktop" class="px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700">
@@ -48,6 +49,7 @@
       <a href="{{ route('user.dashboard') }}" class="block font-medium hover:text-gray-100 transition py-2">Home</a>
       <a href="{{ route('user.event-history') }}" class="block font-medium hover:text-gray-100 transition py-2">My Events</a>
       <a href="{{ route('user.profile') }}" class="block font-medium hover:text-gray-100 transition py-2">Profile</a>
+      <a href="{{ route('user.user-edit') }}" class="block font-medium hover:text-gray-100 transition py-2">Edit Profil</a>
       <form id="logout-form-mobile" method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="button" id="logout-btn-mobile" class="w-full px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700">

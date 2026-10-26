@@ -95,6 +95,9 @@ php artisan cache:clear\n\
 php artisan config:cache\n\
 php artisan route:cache\n\
 \n\
+# Link public storage\n\
+php artisan storage:link || true\n\
+\n\
 # Start Apache\n\
 exec apache2-foreground\n' > /usr/local/bin/start.sh && \
 chmod +x /usr/local/bin/start.sh

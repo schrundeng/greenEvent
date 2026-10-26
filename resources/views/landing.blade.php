@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-10">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green Event Malang</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -40,10 +40,12 @@
     <!-- Auth -->
     <div class="hidden md:flex gap-3 flex-shrink-0">
       @auth
+        <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}"
+          class="px-3 py-1 rounded bg-white text-green-600 font-medium hover:bg-gray-100 transition">Dashboard</a>
         <form method="POST" action="{{ route('logout') }}">
           @csrf
           <button type="submit"
-            class="px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700">
+            class="px-3 py-1 rounded bg-red-600 text-white font-medium hover:bg-red-700 transition">
             Keluar
           </button>
         </form>
